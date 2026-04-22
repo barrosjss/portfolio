@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CoderLabs — Brochure 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --orange:    #F49B0B;
+      --orange-d:  #C97D00;
+      --teal:      #3D9B8A;
+      --pink:      #C94070;
+      --dark:      #1A1A1A;
+      --dark-2:    #222222;
+      --dark-3:    #2C2C2C;
+      --dark-4:    #383838;
+      --white:     #FFFFFF;
+      --gray:      #BBBBBB;
+      --gray-dim:  #777777;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: #0D0D0D;
+      font-family: 'Roboto', sans-serif;
+      color: var(--white);
+      overflow: hidden;
+    }
+
+    /* ── SLIDE SYSTEM ─────────────────────────────── */
+    #presentation { width: 100vw; height: 100vh; position: relative; }
+
+    .slide {
+      position: absolute; inset: 0;
+      display: none;
+      flex-direction: column;
+      background: var(--dark);
+    }
+    .slide.active { display: flex; }
+
+    .slide-bar { height: 4px; flex-shrink: 0; }
+    .slide-bar.orange { background: linear-gradient(90deg, var(--orange), var(--orange-d)); }
+    .slide-bar.teal   { background: linear-gradient(90deg, var(--teal), #2A7A6B); }
+    .slide-bar.pink   { background: linear-gradient(90deg, var(--pink), #8C1A3A); }
+    .slide-bar.multi  { background: linear-gradient(90deg, var(--orange) 0%, var(--teal) 50%, var(--pink) 100%); }
+    .slide-bar.alt    { background: linear-gradient(90deg, var(--orange), var(--teal)); }
+
+    .slide-body { flex: 1; display: flex; min-height: 0; }
+
+    /* ── ACCENT VERTICAL LINE ─────────────────────── */
+    .v-line {
+      width: 4px; flex-shrink: 0; background: var(--orange);
+      border-radius: 0 2px 2px 0;
+    }
+
+    /* ── TYPOGRAPHY UTILS ─────────────────────────── */
+    .label {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 0.6rem;
+    }
+    .label.teal { color: var(--teal); }
+    .label.pink { color: var(--pink); }
+
+    h1.title {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 700; line-height: 1.15;
+    }
+    h2.title {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(1.6rem, 2.8vw, 2.4rem); font-weight: 700; line-height: 1.2;
+    }
+    h3.title {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(1.2rem, 2vw, 1.6rem); font-weight: 700;
+    }
+
+    p.body { font-size: 0.95rem; color: var(--gray); line-height: 1.8; }
+
+    .logo-mark {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 400; line-height: 1;
+    }
+    .logo-mark .br { color: var(--orange); }
+    .logo-mark strong { font-weight: 800; }
+
+    /* ── TAG PILLS ────────────────────────────────── */
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
+      background: rgba(244,155,11,0.12);
+      color: var(--orange);
+      border: 1px solid rgba(244,155,11,0.3);
+      padding: 0.2rem 0.7rem;
+      border-radius: 2rem;
+      font-size: 0.72rem; font-weight: 600;
+    }
+    .tag.teal { background: rgba(61,155,138,0.12); color: var(--teal); border-color: rgba(61,155,138,0.3); }
+
+    /* ── IMG PLACEHOLDER ──────────────────────────── */
+    .ph {
+      background: var(--dark-3);
+      border: 1px dashed rgba(244,155,11,0.25);
+      border-radius: 0.75rem;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.5rem;
+      color: var(--gray-dim); font-size: 0.75rem; text-align: center;
+      padding: 1.5rem;
+    }
+    .ph code { color: rgba(244,155,11,0.7); font-size: 0.7rem; }
+
+    /* ── NAVIGATION BAR ───────────────────────────── */
+    .nav-bar {
+      position: fixed; bottom: 1.75rem; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 1.25rem;
+      background: rgba(20,20,20,0.92);
+      border: 1px solid rgba(244,155,11,0.25);
+      border-radius: 3rem; padding: 0.6rem 1.4rem;
+      backdrop-filter: blur(12px);
+      z-index: 9999;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .nav-bar button {
+      background: transparent;
+      border: 1px solid var(--orange); color: var(--orange);
+      padding: 0.4rem 1.1rem; border-radius: 2rem; cursor: pointer;
+      font-family: 'Poppins', sans-serif; font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.05em; text-transform: uppercase; transition: all 0.18s;
+    }
+    .nav-bar button:hover { background: var(--orange); color: var(--dark); }
+    .nav-bar button:disabled { opacity: 0.3; cursor: default; }
+    .nav-bar button:disabled:hover { background: transparent; color: var(--orange); }
+    .nav-bar .pdf-btn { border-color: var(--teal); color: var(--teal); }
+    .nav-bar .pdf-btn:hover { background: var(--teal); color: white; }
+    .nav-bar .counter {
+      font-family: 'Poppins', sans-serif; font-size: 0.8rem; color: var(--gray-dim);
+      min-width: 3.5rem; text-align: center;
+    }
+
+    /* ── SLIDE 1 — COVER ──────────────────────────── */
+    .cover-bg {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      background-repeat: no-repeat;
+    }
+    .cover-bg::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(110deg, rgba(20,20,20,0.95) 50%, rgba(20,20,20,0.55) 100%);
+    }
+    .cover-content {
+      position: relative; z-index: 1;
+      width: 50%;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      padding: 5vh 5vw; gap: 1.5rem;
+    }
+    .cover-headline {
+      font-size: clamp(2.4rem, 4.2vw, 4rem); font-weight: 700; line-height: 1.1;
+    }
+    .cover-headline span { color: var(--orange); }
+    .cover-year {
+      position: absolute; bottom: 2rem; right: 3rem; z-index: 1;
+      font-family: 'Poppins', sans-serif; font-size: clamp(4rem, 8vw, 7rem); font-weight: 800;
+      color: rgba(244,155,11,0.07); line-height: 1; pointer-events: none;
+    }
+
+    /* ── TEXT COLUMN CONSTRAINT ───────────────────── */
+    .text-col {
+      max-width: 480px; width: 100%;
+      display: flex; flex-direction: column; gap: 1.25rem;
+    }
+
+    /* ── SLIDE — 2-COL INFO (About / Mission) ─────── */
+    .info-left {
+      flex: 1; display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      padding: 4vw 3vw;
+      gap: 1.25rem; position: relative;
+    }
+    .info-right {
+      width: 44%; flex-shrink: 0; background: var(--dark-2);
+      display: flex; align-items: center; justify-content: center;
+      padding: 3rem;
+    }
+    .info-right img { width: 100%; border-radius: 0.75rem; max-height: 65vh; object-fit: contain; }
+
+    /* ── SLIDE — ROLE / TECH STACK ───────────────── */
+    .role-left {
+      flex: 1; display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      padding: 4vw 3vw; gap: 1.25rem;
+    }
+    .role-right {
+      width: 52%; background: var(--dark-2);
+      display: flex; align-items: center; justify-content: center;
+      padding: 3rem 2.5rem;
+    }
+    .tech-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem;
+      width: 100%;
+    }
+    .tech-icon {
+      aspect-ratio: 1/1;
+      background: var(--dark-3);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 0.3rem;
+      padding: 0.5rem;
+      transition: border-color 0.2s;
+    }
+    .tech-icon:hover { border-color: rgba(244,155,11,0.4); }
+    .tech-icon img { width: 60%; height: 60%; object-fit: contain; }
+    .tech-icon span { font-size: 0.55rem; color: var(--gray-dim); text-align: center; }
+
+    /* ── SLIDE — WORKFLOW ────────────────────────── */
+    .workflow-inner {
+      flex: 1; display: flex; flex-direction: column;
+      padding: 4vw 5vw; gap: 1.25rem;
+      max-width: 1200px; margin: 0 auto; width: 100%;
+    }
+    .workflow-img { flex: 1; min-height: 0; }
+    .workflow-img img {
+      width: 100%; height: 100%; object-fit: contain;
+      border-radius: 0.75rem;
+    }
+    .stage-pills {
+      flex: 1; display: grid;
+      grid-template-columns: repeat(5, 1fr); gap: 0.75rem;
+      align-content: center;
+    }
+    .stage-pill {
+      background: var(--dark-2); border-radius: 0.5rem;
+      padding: 1rem 0.75rem; text-align: center;
+      border-top: 3px solid var(--orange);
+    }
+    .stage-pill .n {
+      font-family: 'Poppins', sans-serif; font-size: 1.6rem;
+      font-weight: 800; color: var(--orange); line-height: 1;
+    }
+    .stage-pill .name {
+      font-size: 0.62rem; color: var(--gray); text-transform: uppercase;
+      letter-spacing: 0.05em; margin-top: 0.35rem; line-height: 1.3;
+    }
+
+    /* ── SLIDE — WORKFLOW ────────────────────────── */
+    .workflow-left {
+      flex: 1; display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      padding: 4vw 3vw; gap: 1.25rem;
+    }
+    .workflow-right {
+      width: 52%; background: var(--dark-2);
+      display: flex; align-items: center; justify-content: center;
+      padding: 3rem 2.5rem;
+    }
+
+    /* ── SLIDE — SERVICES ────────────────────────── */
+    .services-inner {
+      flex: 1; display: flex; flex-direction: column;
+      padding: 4vw 5vw; gap: 1.25rem;
+      max-width: 1200px; margin: 0 auto; width: 100%;
+    }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem; flex: 1; align-content: center;
+    }
+    .svc-card {
+      background: var(--dark-2);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 1rem; padding: 1.75rem 1.5rem;
+      border-top: 3px solid var(--orange);
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .svc-card.teal { border-top-color: var(--teal); }
+    .svc-card.pink { border-top-color: var(--pink); }
+    .svc-card h3 {
+      font-family: 'Poppins', sans-serif; font-size: 1.05rem; font-weight: 700;
+    }
+    .svc-card ul { list-style: none; color: var(--gray); font-size: 0.88rem; line-height: 2.1; }
+    .svc-card ul li::before { content: '→ '; color: var(--orange); }
+    .svc-card.teal ul li::before { color: var(--teal); }
+    .svc-card.pink ul li::before { color: var(--pink); }
+
+    /* ── SLIDE — PROJECT (BROCHURE STYLE) ────────── */
+    .proj-left {
+      width: 44%; flex-shrink: 0; display: flex; flex-direction: column;
+      padding: 5vh 5vw; gap: 1.5rem;
+      border-right: 1px solid rgba(255,255,255,0.05);
+      position: relative; overflow-y: auto;
+    }
+    .proj-label {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.85rem; font-weight: 800; color: var(--accent);
+      letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.2rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .proj-badge {
+      font-size: 0.65rem; background: var(--accent); color: white;
+      padding: 0.15rem 0.6rem; border-radius: 2rem; letter-spacing: 0.05em;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .proj-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 800; line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+    .proj-client-logo { height: clamp(60px, 8vw, 90px); width: auto; object-fit: contain; object-position: left; margin-bottom: 0.75rem; }
+    
+    .proj-content { display: flex; flex-direction: column; gap: 1.4rem; width: 100%; }
+    .proj-desc { font-size: 0.95rem; color: var(--gray); line-height: 1.7; }
+    .proj-challenge-label {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.85rem; font-weight: 800; color: var(--accent);
+      margin-bottom: 0.4rem; letter-spacing: 0.05em;
+    }
+    .proj-challenge-text { font-size: 0.9rem; color: var(--gray); line-height: 1.7; }
+
+    .proj-footer {
+      margin-top: auto; display: flex; flex-direction: column; gap: 1.8rem;
+    }
+    .proj-note {
+      margin-top: 1rem; font-size: 0.75rem; color: rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.03); padding: 0.6rem 0.8rem; border-radius: 6px;
+      display: flex; gap: 0.5rem; line-height: 1.4; font-style: italic;
+      border: 1px solid rgba(255,255,255,0.02);
+    }
+    .proj-note span { opacity: 0.5; font-style: normal; }
+    .proj-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.8rem 1.6rem; border-radius: 3rem;
+      background: transparent; border: 1px solid var(--accent);
+      color: var(--accent); font-family: 'Poppins', sans-serif;
+      font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.05em; text-decoration: none; transition: all 0.2s;
+      width: fit-content;
+    }
+    .proj-btn:hover { background: var(--accent); color: white; transform: scale(1.05); }
+
+    .proj-meta {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem;
+      padding: 1.25rem 0; border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .proj-meta-item .mk { 
+      font-size: 0.65rem; color: var(--accent); 
+      text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+    .proj-meta-item .mv {
+      font-family: 'Poppins', sans-serif; font-size: 0.8rem; 
+      font-weight: 600; color: var(--white);
+    }
+
+    .proj-right {
+      flex: 1; background: var(--dark-2);
+      display: flex; flex-direction: column; position: relative;
+    }
+    .proj-showcase {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      padding: 4rem;
+    }
+
+    /* BROWSER FRAME PREMIUM */
+    .browser-frame {
+      width: fit-content; max-width: 95%; background: #0F0F0F; 
+      border-radius: 12px; overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 10px 30px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex; flex-direction: column;
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+    .browser-header {
+      background: #1C1C1E; padding: 0 16px; height: 38px;
+      display: flex; align-items: center; position: relative;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .browser-dots { display: flex; gap: 8px; align-items: center; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; }
+    .dot.r { background: #FF5F56; }
+    .dot.y { background: #FFBD2E; }
+    .dot.g { background: #27C93F; }
+    
+    .browser-address-bar {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      background: rgba(255,255,255,0.05); border-radius: 6px;
+      padding: 4px 12px; min-width: 35%; max-width: 60%;
+      height: 22px; display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+    .browser-url {
+      font-family: inherit; font-size: 0.65rem; color: rgba(255,255,255,0.3);
+      text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    .browser-body { line-height: 0; background: #fff; }
+    
+    .proj-showcase img { 
+      max-width: 90%; max-height: 80vh; 
+      object-fit: contain; 
+      filter: drop-shadow(0 20px 50px rgba(0,0,0,0.6));
+      border-radius: 1rem;
+    }
+    /* Override for browser images */
+    .browser-body img { 
+      width: 100%; height: auto; 
+      border-radius: 0 !important; 
+      filter: none !important; 
+      max-width: 100% !important;
+      max-height: none !important;
+    }
+
+
+    /* ── SLIDE — CONTACT ─────────────────────────── */
+    .contact-left {
+      flex: 1; display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      padding: 4vw 3vw; gap: 1.5rem; position: relative;
+    }
+    .contact-text {
+      max-width: 480px; width: 100%;
+      display: flex; flex-direction: column; gap: 1.5rem;
+    }
+    .contact-info { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-row {
+      display: flex; align-items: center; gap: 1rem;
+      font-size: 0.95rem; color: var(--gray);
+    }
+    .contact-row .ico {
+      width: 2.4rem; height: 2.4rem; flex-shrink: 0;
+      background: rgba(244,155,11,0.08);
+      border: 1px solid rgba(244,155,11,0.25);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+    }
+    .contact-row a { color: var(--orange); text-decoration: none; }
+    .social-links { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem; }
+    .social-link {
+      color: var(--gray-dim); font-size: 0.82rem; text-decoration: none;
+      display: flex; align-items: center; gap: 0.35rem; transition: color 0.2s;
+    }
+    .social-link:hover { color: var(--orange); }
+    .contact-right {
+      width: 36%; flex-shrink: 0;
+      background: var(--orange);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 1rem; padding: 3rem 2.5rem;
+    }
+    .contact-right .yr {
+      font-family: 'Poppins', sans-serif; font-size: clamp(4rem, 7vw, 6rem);
+      font-weight: 800; color: white; line-height: 1;
+    }
+    .contact-right .cta-now {
+      font-family: 'Poppins', sans-serif; font-size: 1.1rem;
+      color: rgba(255,255,255,0.8); text-align: center;
+    }
+    .contact-right .cta-now strong {
+      display: block; font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      font-weight: 800; color: white; margin-top: 0.2rem;
+    }
+
+    /* ── PRINT / PDF ─────────────────────────────── */
+    @page { size: landscape; margin: 0; }
+    @media print {
+      html, body { overflow: visible; background: white; }
+      .nav-bar { display: none !important; }
+      #presentation { width: 100%; height: auto; position: static; }
+      .slide {
+        display: flex !important;
+        position: relative;
+        page-break-after: always;
+        width: 100%; height: 100vh;
+        break-after: page;
+      }
+      .slide:last-child { page-break-after: avoid; break-after: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="presentation"></div>
+
+<nav class="nav-bar">
+  <button id="btn-prev" onclick="go(cur-1)">← Anterior</button>
+  <span class="counter" id="counter">1 / 1</span>
+  <button id="btn-next" onclick="go(cur+1)">Siguiente →</button>
+  <button class="pdf-btn" onclick="window.print()">↓ PDF</button>
+</nav>
+
+<script src="data/projects.js"></script>
+<script>
+// ═══════════════════════════════════════════════
+// SLIDE BUILDERS
+// ═══════════════════════════════════════════════
+
+function imgOrPh(src, alt, cls, phText) {
+  return `<img src="${src}" alt="${alt}" class="${cls}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="ph" style="display:none;flex:1">${phText}</div>`;
+}
+
+function buildCover() {
+  return `
+  <div class="slide" id="s0">
+    <div class="slide-bar multi"></div>
+    <div class="slide-body" style="position:relative">
+      <div class="cover-bg" id="cover-bg"></div>
+      <div class="v-line" style="position:relative;z-index:1;flex-shrink:0"></div>
+      <div class="cover-content">
+        <div class="logo-mark"><span class="br">{</span>Coder<strong>Labs</strong><span class="br">_</span></div>
+        <p class="label">Software a la medida · Barranquilla, Colombia</p>
+        <h1 class="cover-headline">
+          Haciendo que tu negocio<br>
+          <span>LAS SOLUCIONES<br>SE HAGAN REALIDAD</span>
+        </h1>
+        <p class="body">
+          Somos tu aliado tecnológico para transformar ideas en productos digitales de alto impacto para empresas B2B y B2C.
+        </p>
+        <div class="tags" style="margin-top:0.25rem">
+          <span class="tag">Aplicaciones Móviles</span>
+          <span class="tag">Sistemas Web</span>
+          <span class="tag">Diseño UX/UI</span>
+          <span class="tag">Marketing SEO</span>
+        </div>
+      </div>
+      <div class="cover-year">2026</div>
+    </div>
+  </div>`;
+}
+
+function buildAbout() {
+  return `
+  <div class="slide" id="s1">
+    <div class="slide-bar orange"></div>
+    <div class="slide-body">
+      <div class="v-line"></div>
+      <div class="info-left">
+        <div class="text-col">
+          <p class="label">Quiénes somos</p>
+          <h2 class="title">Sobre Nosotros</h2>
+          <p class="body">
+            Somos un equipo multidisciplinario comprometido con facilitar la vida de los usuarios de software.
+            Proveemos soluciones a nuestros clientes adaptándonos al entorno y a los diferentes desafíos que
+            requiere el desarrollo de un producto digital.
+          </p>
+          <p class="body">
+            <strong style="color:var(--white)">Somos una empresa proveedora de servicios tecnológicos en desarrollo de software B2B y B2C.</strong>
+          </p>
+          <div class="tags">
+            <span class="tag">+5 años de experiencia</span>
+            <span class="tag">Metodologías ágiles</span>
+            <span class="tag teal">SCRUM / Lean Agile</span>
+          </div>
+        </div>
+      </div>
+      <div class="info-right">
+        ${imgOrPh('assets/team/team.png','Equipo CoderLabs','',
+          'Imagen del equipo<br><code>assets/team/team.png</code>')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildMission() {
+  return `
+  <div class="slide" id="s2">
+    <div class="slide-bar pink"></div>
+    <div class="slide-body">
+      <div class="v-line" style="background:var(--pink)"></div>
+      <div class="info-left">
+        <div class="text-col">
+          <p class="label pink">Por qué existimos</p>
+          <h2 class="title">Nuestra Misión</h2>
+          <p class="body">
+            Desarrollamos software a medida, adaptado a los objetivos y necesidades de las empresas,
+            utilizando metodologías ágiles, diseño UX y los principales lenguajes de programación
+            para garantizar la integración, el rendimiento y la escalabilidad de nuestros productos.
+          </p>
+          <div class="tags">
+            <span class="tag" style="border-color:rgba(201,64,112,.3);background:rgba(201,64,112,.1);color:var(--pink)">Aplicaciones móviles</span>
+            <span class="tag" style="border-color:rgba(201,64,112,.3);background:rgba(201,64,112,.1);color:var(--pink)">Sistemas web</span>
+            <span class="tag" style="border-color:rgba(201,64,112,.3);background:rgba(201,64,112,.1);color:var(--pink)">Diseño UX/UI</span>
+          </div>
+        </div>
+      </div>
+      <div class="info-right">
+        ${imgOrPh('assets/misc/mission.png','Misión','',
+          'Imagen de misión<br><code>assets/misc/mission.png</code>')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildRole() {
+  const techs = [
+    { slug: 'anthropic',     label: 'Claude',      color: 'D97757' },
+    { slug: 'openai',        label: 'OpenAI',      color: '000000', local: 'assets/tech/openai.svg' },
+    { slug: 'n8n',           label: 'n8n',         color: 'FF6D5A' },
+    { slug: 'supabase',      label: 'Supabase',    color: '3ECF8E' },
+    { slug: 'swift',         label: 'Swift',       color: 'F05138' },
+    { slug: 'kotlin',        label: 'Kotlin',      color: '7F52FF' },
+    { slug: 'typescript',    label: 'TypeScript',  color: '3178C6' },
+    { slug: 'react',         label: 'React/Native',color: '61DAFB' },
+    { slug: 'nextdotjs',     label: 'Next.js',     color: 'FFFFFF' },
+    { slug: 'tailwindcss',   label: 'Tailwind',    color: '06B6D4' },
+    { slug: 'flutter',       label: 'Flutter',     color: '02569B' },
+    { slug: 'angular',       label: 'Angular',     color: 'DD0031' },
+    { slug: 'nodedotjs',     label: 'Node.js',     color: '339933' },
+    { slug: 'ruby',          label: 'Ruby',        color: 'CC342D' },
+    { slug: 'rubyonrails',   label: 'Rails',       color: 'D30001' },
+    { slug: 'python',        label: 'Python',      color: '3776AB' },
+    { slug: 'postgresql',    label: 'PostgreSQL',  color: '4169E1' },
+    { slug: 'mongodb',       label: 'MongoDB',     color: '47A248' },
+    { slug: 'sketch',        label: 'Sketch',      color: 'F7B500' },
+    { slug: 'figma',         label: 'Figma',       color: 'F24E1E' },
+    { slug: 'jira',          label: 'Jira',        color: '0052CC' },
+    { slug: 'aws',           label: 'AWS',         color: 'FF9900', local: 'assets/tech/aws.svg' },
+    { slug: 'googlecloud',   label: 'Google Cloud',color: '4285F4' },
+    { slug: 'digitalocean',  label: 'DigitalOcean',color: '0080FF' },
+    { slug: 'docker',        label: 'Docker',      color: '2496ED' },
+    { slug: 'git',           label: 'Git',         color: 'F05032' },
+    { slug: 'github',        label: 'GitHub',      color: 'FFFFFF' }
+  ];
+  return `
+  <div class="slide" id="s4">
+    <div class="slide-bar alt"></div>
+    <div class="slide-body">
+      <div class="v-line"></div>
+      <div class="role-left">
+        <div class="text-col">
+          <p class="label">Expertos en TI</p>
+          <h2 class="title" style="margin-bottom: 0.5rem">Nuestro Rol</h2>
+          <p class="body" style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem">
+            Ya sea que tengas una idea o estés buscando expertos en TI para unirte a tu equipo, 
+            te ayudamos a identificar la tecnología adecuada y encontrar el mejor talento para las 
+            necesidades de tu negocio basándonos en el desarrollo de software.
+          </p>
+          <p class="body" style="font-size: 1rem; line-height: 1.6; color: var(--white); font-weight: 600">
+            Contamos con la experiencia de una empresa nueva que proporciona una solución 
+            personalizada con metodologías ágiles.
+          </p>
+        </div>
+      </div>
+      <div class="role-right" style="width: 58%; padding: 2rem">
+        <div class="tech-grid" style="grid-template-columns: repeat(7, 1fr); gap: 0.75rem">
+          ${techs.map(t => {
+            const baseSrc = t.local ? t.local : `https://cdn.simpleicons.org/${t.slug}/FFF`;
+            const hoverSrc = t.local ? t.local : `https://cdn.simpleicons.org/${t.slug}/${t.color}`;
+            const filter = t.local ? 'filter: brightness(0) invert(1);' : '';
+            return `
+            <div class="tech-icon" style="background: rgba(255,255,255,0.03); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.08); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: default; transform-style: preserve-3d;" 
+                 onmouseover="this.style.background='rgba(255,255,255,0.1)';this.style.borderColor='#${t.color}66';this.style.transform='translateY(-5px) scale(1.05)';this.style.boxShadow='0 10px 20px -5px #${t.color}33'"
+                 onmouseout="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.08)';this.style.transform='translateY(0) scale(1)';this.style.boxShadow='none'">
+              <img src="${baseSrc}" alt="${t.label}" 
+                   style="width: 50%; opacity: 0.85; transition: all 0.3s; ${filter}"
+                   onmouseover="this.src='${hoverSrc}';this.style.opacity='1';${t.local ? "this.style.filter='none'" : ""}" 
+                   onmouseout="this.src='${baseSrc}';this.style.opacity='0.85';${t.local ? "this.style.filter='brightness(0) invert(1)'" : ""}">
+              <span style="font-size: 0.45rem; margin-top: 0.4rem; color: var(--gray-dim); letter-spacing: 0.05em; font-weight: 500">${t.label.toUpperCase()}</span>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildWorkflow() {
+  return `
+  <div class="slide" id="s5">
+    <div class="slide-bar orange"></div>
+    <div class="slide-body">
+      <div class="v-line" style="background:var(--accent)"></div>
+      <div class="workflow-left">
+        <div class="text-col" style="max-width: 480px">
+          <p class="label">Procesos Ágiles</p>
+          <h2 class="title" style="margin-bottom: 1.5rem">Nuestro Flujo de Trabajo</h2>
+          <p class="body" style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.2rem">
+            Nuestro papel como aliados va mucho más allá de crear un diseño atractivo. 
+            Implementamos una combinación de marcos de trabajo que nos ayudan a identificar los objetivos, 
+            audiencias, alcance y diseño del producto.
+          </p>
+          <p class="body" style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.2rem">
+            Construimos productos cohesivos que se alinean con la estrategia general de la marca 
+            y del producto, así como con las necesidades de los usuarios. Toda nuestra empresa 
+            está organizada en torno a sprints <strong>SCRUM/ÁGILES</strong>.
+          </p>
+          <p class="body" style="font-weight:700; color:var(--white); font-size:1rem">
+            Garantizando entregables medibles y oportunos.
+          </p>
+        </div>
+      </div>
+      <div class="workflow-right" style="width: 58%; padding: 2rem">
+        <div class="workflow-visual" style="width: 100%; display: flex; justify-content: center">
+          <img src="assets/workflow/flujo-work.png" alt="Flujo de Trabajo"
+            style="width: 100%; max-height: 70vh; object-fit: contain">
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildServices() {
+  return `
+  <div class="slide" id="s6">
+    <div class="slide-bar multi"></div>
+    <div class="slide-body">
+      <div class="v-line"></div>
+      <div class="services-inner">
+        <p class="label">Lo que hacemos</p>
+        <h2 class="title">Nuestros Servicios</h2>
+        <div class="services-grid">
+          <div class="svc-card">
+            <h3>🎨 Diseño UI/UX</h3>
+            <ul>
+              <li>Diseño UI</li>
+              <li>Diseño UX</li>
+              <li>Identidad visual y branding</li>
+              <li>Branding enfocado en entorno digital</li>
+              <li>Marcos: SCRUM, Lean Agile</li>
+              <li>SEO técnico e indexación</li>
+            </ul>
+          </div>
+          <div class="svc-card teal">
+            <h3>💻 Desarrollo</h3>
+            <ul>
+              <li>React, React Native</li>
+              <li>JavaScript / TypeScript</li>
+              <li>WordPress / WooCommerce</li>
+              <li>Node.js · Ruby on Rails · GraphQL</li>
+              <li>iOS nativo · Flutter</li>
+              <li>AWS · Azure · Digital Ocean · Vercel</li>
+            </ul>
+          </div>
+          <div class="svc-card pink">
+            <h3>📈 Marketing (SEO)</h3>
+            <ul>
+              <li>SEO técnico</li>
+              <li>Indexación en motores de búsqueda</li>
+              <li>Optimización de rendimiento web</li>
+              <li>Analítica y métricas</li>
+              <li>Integraciones de terceros</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildProject(p, i) {
+  const accent = p.color || '#F49B0B';
+  const logoSrc = p.clientLogo ? `assets/projects/${p.clientLogo}` : '';
+  const logoHtml = logoSrc 
+    ? `<img src="${logoSrc}" alt="${p.name} logo" class="proj-client-logo" onerror="this.remove()">` 
+    : '';
+
+  const clientDisplay = `
+    ${logoHtml}
+    <h2 class="proj-title">${p.name}</h2>
+  `;
+
+  const metaHtml = p.meta
+    ? `<div class="proj-meta">
+        ${Object.entries(p.meta).map(([k,v]) => `
+        <div class="proj-meta-item">
+          <div class="mk">${k.toUpperCase()}</div>
+          <div class="mv">${v}</div>
+        </div>`).join('')}
+       </div>` : '';
+
+  const screenshotSrc = Array.isArray(p.screenshot) ? p.screenshot[0] : p.screenshot;
+  const platform = (p.meta && p.meta.Plataforma) ? p.meta.Plataforma.toLowerCase() : '';
+  const isWeb = platform.includes('web') && !platform.includes('android') && !platform.includes('ios');
+
+  const imageContent = isWeb 
+    ? `<div class="browser-frame">
+         <div class="browser-header">
+           <div class="browser-dots">
+             <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+           </div>
+           <div class="browser-address-bar">
+             <div class="browser-url">${p.url && p.url !== '#' ? p.url.replace('https://','').replace('www.','') : p.name.toLowerCase()+'.app'}</div>
+           </div>
+         </div>
+         <div class="browser-body">
+            ${imgOrPh('assets/projects/'+screenshotSrc, p.name, '', 'Screenshot: '+p.name)}
+         </div>
+       </div>`
+    : imgOrPh('assets/projects/'+screenshotSrc, p.name, '', 'Screenshot: '+p.name);
+  
+  return `
+  <div class="slide" id="p${i}" style="--accent: ${accent}">
+    <div class="slide-bar" style="background:${accent}"></div>
+    <div class="slide-body">
+      <div class="proj-left">
+        <div class="proj-label">
+           <span>NUESTRO TRABAJO</span>
+           ${p.top ? `<span class="proj-badge">TOP PROJECT</span>` : ''}
+        </div>
+        <div class="proj-header">
+           ${clientDisplay}
+        </div>
+        <div class="proj-content">
+          <p class="proj-desc">${p.description}</p>
+          <div class="challenge-box">
+             <p class="proj-challenge-label">DESAFÍO</p>
+             <p class="proj-challenge-text">${p.challenge}</p>
+          </div>
+          ${p.note ? `<div class="proj-note"><span>🔒</span> ${p.note}</div>` : ''}
+        </div>
+        <div class="proj-footer">
+          ${metaHtml}
+          <a href="${p.url || '#'}" target="_blank" class="proj-btn">Ver Proyecto →</a>
+        </div>
+      </div>
+      <div class="proj-right">
+        <div class="proj-showcase">
+           ${imageContent}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildContact() {
+  return `
+  <div class="slide" id="sc">
+    <div class="slide-bar multi"></div>
+    <div class="slide-body">
+      <div class="v-line"></div>
+      <div class="contact-left">
+        <div class="contact-text">
+          <div class="logo-mark"><span class="br">{</span>Coder<strong>Labs</strong><span class="br">_</span></div>
+          <p class="label">Estamos listos para ayudarte</p>
+          <div class="contact-info">
+            <div class="contact-row"><span class="ico">✉</span><span>contact@coderlabs.co</span></div>
+            <div class="contact-row"><span class="ico">📞</span><span>300 277 1564</span></div>
+            <div class="contact-row"><span class="ico">📍</span><span>Calle 35A No. 17-74, piso 3, Barranquilla, Atlántico, Colombia</span></div>
+            <div class="contact-row"><span class="ico">🕘</span><span>Lunes – Viernes · 9:00 a 18:00</span></div>
+            <div class="contact-row"><span class="ico">🌐</span><a href="https://coderlabs.co" target="_blank">coderlabs.co</a></div>
+          </div>
+          <div class="social-links">
+            <span class="social-link">in CoderLabs</span>
+            <span class="social-link">𝕏 @coderlabs_</span>
+            <span class="social-link">▶ @coderlabs.code</span>
+            <span class="social-link">📷 @coderlabs_</span>
+          </div>
+        </div>
+      </div>
+      <div class="contact-right">
+        <div class="yr">2026</div>
+        <div class="cta-now">
+          Ahora
+          <strong>Contáctanos</strong>
+        </div>
+        <img src="assets/logo/logo-white.png" alt="CoderLabs"
+          style="height:40px;object-fit:contain;opacity:.8;margin-top:1rem"
+          onerror="this.style.display='none'">
+      </div>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════
+let cur = 0;
+let slides = [];
+
+function go(n) {
+  slides[cur].classList.remove('active');
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  slides[cur].classList.add('active');
+  document.getElementById('counter').textContent = `${cur + 1} / ${slides.length}`;
+  document.getElementById('btn-prev').disabled = cur === 0;
+  document.getElementById('btn-next').disabled = cur === slides.length - 1;
+}
+
+document.addEventListener('keydown', e => {
+  if (['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)) { e.preventDefault(); go(cur+1); }
+  if (['ArrowLeft','ArrowUp','PageUp'].includes(e.key))          { e.preventDefault(); go(cur-1); }
+});
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+(function init() {
+  const p = document.getElementById('presentation');
+  let html = '';
+  html += buildCover();
+  html += buildAbout();
+  html += buildMission();
+  html += buildRole();
+  html += buildWorkflow();
+  // html += buildServices();
+  (window.PROJECTS || []).forEach((proj, i) => { html += buildProject(proj, i); });
+  html += buildContact();
+  p.innerHTML = html;
+
+  slides = Array.from(document.querySelectorAll('.slide'));
+  slides[0].classList.add('active');
+  document.getElementById('counter').textContent = `1 / ${slides.length}`;
+  document.getElementById('btn-prev').disabled = true;
+
+  // Cover: hero as full background
+  const covBg = document.getElementById('cover-bg');
+  if (covBg) covBg.style.backgroundImage = "url('assets/hero/hero.png')";
+})();
+</script>
+</body>
+</html>
