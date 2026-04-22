@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CoderLabs — Brochure 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.simpleicons.org">
+  <link rel="preload" href="assets/hero/hero.png" as="image">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -33,10 +37,15 @@
     /* ── SLIDE SYSTEM ─────────────────────────────── */
     #presentation { width: 100vw; height: 100vh; position: relative; }
 
+    /* Lazy image fade-in */
+    img.lazy { opacity: 0; transition: opacity 0.25s ease; }
+    img.lazy.img-loaded { opacity: 1; }
+
     .slide {
       position: absolute; inset: 0;
       display: none;
       flex-direction: column;
+      contain: layout style;
       background: var(--dark);
     }
     .slide.active { display: flex; }
@@ -500,7 +509,9 @@
 // ═══════════════════════════════════════════════
 
 function imgOrPh(src, alt, cls, phText) {
-  return `<img src="${src}" alt="${alt}" class="${cls}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+  return `<img data-src="${src}" alt="${alt}" class="lazy ${cls}"
+               onload="this.classList.add('img-loaded')"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="ph" style="display:none;flex:1">${phText}</div>`;
 }
 
@@ -522,10 +533,10 @@ function buildCover() {
           Somos tu aliado tecnológico para transformar ideas en productos digitales de alto impacto para empresas B2B y B2C.
         </p>
         <div class="tags" style="margin-top:0.25rem">
-          <span class="tag">Aplicaciones Móviles</span>
-          <span class="tag">Sistemas Web</span>
-          <span class="tag">Diseño UX/UI</span>
-          <span class="tag">Marketing SEO</span>
+          <span class="tag">AI & Automatizaciones</span>
+          <span class="tag">Software Development</span>
+          <span class="tag">Consultoría TI</span>
+          <span class="tag">Análisis de datos</span>
         </div>
       </div>
       <div class="cover-year">2026</div>
@@ -533,7 +544,7 @@ function buildCover() {
   </div>`;
 }
 
-function buildAbout() {
+function buildAboutMission() {
   return `
   <div class="slide" id="s1">
     <div class="slide-bar orange"></div>
@@ -541,55 +552,31 @@ function buildAbout() {
       <div class="v-line"></div>
       <div class="info-left">
         <div class="text-col">
-          <p class="label">Quiénes somos</p>
-          <h2 class="title">Sobre Nosotros</h2>
+          <p class="label">Nuestra Identidad</p>
+          <h2 class="title">Sobre Nosotros & Misión</h2>
           <p class="body">
-            Somos un equipo multidisciplinario comprometido con facilitar la vida de los usuarios de software.
-            Proveemos soluciones a nuestros clientes adaptándonos al entorno y a los diferentes desafíos que
+            Somos un equipo multidisciplinario comprometido con facilitar la vida de los usuarios de software. 
+            Proveemos soluciones a nuestros clientes adaptándonos al entorno y a los diferentes desafíos que 
             requiere el desarrollo de un producto digital.
           </p>
           <p class="body">
             <strong style="color:var(--white)">Somos una empresa proveedora de servicios tecnológicos en desarrollo de software B2B y B2C.</strong>
           </p>
-          <div class="tags">
-            <span class="tag">+5 años de experiencia</span>
-            <span class="tag">Metodologías ágiles</span>
-            <span class="tag teal">SCRUM / Lean Agile</span>
-          </div>
-        </div>
-      </div>
-      <div class="info-right">
-        ${imgOrPh('assets/team/team.png','Equipo CoderLabs','',
-          'Imagen del equipo<br><code>assets/team/team.png</code>')}
-      </div>
-    </div>
-  </div>`;
-}
-
-function buildMission() {
-  return `
-  <div class="slide" id="s2">
-    <div class="slide-bar pink"></div>
-    <div class="slide-body">
-      <div class="v-line" style="background:var(--pink)"></div>
-      <div class="info-left">
-        <div class="text-col">
-          <p class="label pink">Por qué existimos</p>
-          <h2 class="title">Nuestra Misión</h2>
-          <p class="body">
-            Desarrollamos software a medida, adaptado a los objetivos y necesidades de las empresas,
-            utilizando metodologías ágiles, diseño UX y los principales lenguajes de programación
+          <p class="body" style="margin-top: 1.5rem">
+            Nuestra misión es desarrollar software a medida, adaptado a los objetivos de las empresas, 
+            utilizando metodologías ágiles, diseño UX y los principales lenguajes de programación 
             para garantizar la integración, el rendimiento y la escalabilidad de nuestros productos.
           </p>
-          <div class="tags">
-            <span class="tag" style="border-color:rgba(201,64,112,.3);background:rgba(201,64,112,.1);color:var(--pink)">Aplicaciones móviles</span>
-            <span class="tag" style="border-color:rgba(201,64,112,.3);background:rgba(201,64,112,.1);color:var(--pink)">Sistemas web</span>
-            <span class="tag" style="border-color:rgba(201,64,112,.3);background:rgba(201,64,112,.1);color:var(--pink)">Diseño UX/UI</span>
+          <div class="tags" style="margin-top: 2rem">
+            <span class="tag">AI & Automatizaciones</span>
+            <span class="tag">Software Development</span>
+            <span class="tag">Consultoría TI</span>
+            <span class="tag">Análisis de datos</span>
           </div>
         </div>
       </div>
       <div class="info-right">
-        ${imgOrPh('assets/misc/mission.png','Misión','',
+        ${imgOrPh('assets/misc/mission.png','Sobre Nosotros & Misión','',
           'Imagen de misión<br><code>assets/misc/mission.png</code>')}
       </div>
     </div>
@@ -656,10 +643,11 @@ function buildRole() {
             <div class="tech-icon" style="background: rgba(255,255,255,0.03); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.08); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: default; transform-style: preserve-3d;" 
                  onmouseover="this.style.background='rgba(255,255,255,0.1)';this.style.borderColor='#${t.color}66';this.style.transform='translateY(-5px) scale(1.05)';this.style.boxShadow='0 10px 20px -5px #${t.color}33'"
                  onmouseout="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.08)';this.style.transform='translateY(0) scale(1)';this.style.boxShadow='none'">
-              <img src="${baseSrc}" alt="${t.label}" 
-                   style="width: 50%; opacity: 0.85; transition: all 0.3s; ${filter}"
-                   onmouseover="this.src='${hoverSrc}';this.style.opacity='1';${t.local ? "this.style.filter='none'" : ""}" 
-                   onmouseout="this.src='${baseSrc}';this.style.opacity='0.85';${t.local ? "this.style.filter='brightness(0) invert(1)'" : ""}">
+              <img data-src="${baseSrc}" data-hover="${hoverSrc}" alt="${t.label}"
+                   class="lazy" onload="this.classList.add('img-loaded');this.style.opacity='0.85'"
+                   style="width: 50%; transition: opacity 0.3s, filter 0.3s; ${filter}"
+                   onmouseover="this.src='${hoverSrc}';this.style.opacity='1';${t.local ? "this.style.filter='none'" : ""}"
+                   onmouseout="this.style.opacity='0.85';${t.local ? "this.style.filter='brightness(0) invert(1)'" : ""}">
               <span style="font-size: 0.45rem; margin-top: 0.4rem; color: var(--gray-dim); letter-spacing: 0.05em; font-weight: 500">${t.label.toUpperCase()}</span>
             </div>`;
           }).join('')}
@@ -696,7 +684,8 @@ function buildWorkflow() {
       </div>
       <div class="workflow-right" style="width: 58%; padding: 2rem">
         <div class="workflow-visual" style="width: 100%; display: flex; justify-content: center">
-          <img src="assets/workflow/flujo-work.png" alt="Flujo de Trabajo"
+          <img data-src="assets/workflow/flujo-work.png" alt="Flujo de Trabajo"
+            class="lazy" onload="this.classList.add('img-loaded')"
             style="width: 100%; max-height: 70vh; object-fit: contain">
         </div>
       </div>
@@ -867,6 +856,18 @@ function buildContact() {
 }
 
 // ═══════════════════════════════════════════════
+// LAZY LOADING
+// ═══════════════════════════════════════════════
+function loadImages(slideEl) {
+  if (!slideEl) return;
+  slideEl.querySelectorAll('img[data-src]').forEach(img => {
+    if (!img.getAttribute('src')) {
+      img.src = img.getAttribute('data-src');
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════
 // NAVIGATION
 // ═══════════════════════════════════════════════
 let cur = 0;
@@ -876,6 +877,8 @@ function go(n) {
   slides[cur].classList.remove('active');
   cur = Math.max(0, Math.min(n, slides.length - 1));
   slides[cur].classList.add('active');
+  loadImages(slides[cur]);
+  loadImages(slides[cur + 1]); // preload next
   document.getElementById('counter').textContent = `${cur + 1} / ${slides.length}`;
   document.getElementById('btn-prev').disabled = cur === 0;
   document.getElementById('btn-next').disabled = cur === slides.length - 1;
@@ -893,8 +896,7 @@ document.addEventListener('keydown', e => {
   const p = document.getElementById('presentation');
   let html = '';
   html += buildCover();
-  html += buildAbout();
-  html += buildMission();
+  html += buildAboutMission();
   html += buildRole();
   html += buildWorkflow();
   // html += buildServices();
@@ -907,7 +909,11 @@ document.addEventListener('keydown', e => {
   document.getElementById('counter').textContent = `1 / ${slides.length}`;
   document.getElementById('btn-prev').disabled = true;
 
-  // Cover: hero as full background
+  // Load first 2 slides immediately; rest load on demand
+  loadImages(slides[0]);
+  loadImages(slides[1]);
+
+  // Cover: hero as full background (already preloaded via <link rel=preload>)
   const covBg = document.getElementById('cover-bg');
   if (covBg) covBg.style.backgroundImage = "url('assets/hero/hero.png')";
 })();
