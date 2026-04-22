@@ -295,6 +295,59 @@
     .svc-card.teal ul li::before { color: var(--teal); }
     .svc-card.pink ul li::before { color: var(--pink); }
 
+    /* ── SLIDE — TEAM / FOUNDERS ─────────────────── */
+    .team-inner {
+      flex: 1; display: flex; flex-direction: column;
+      padding: 3vh 5vw; gap: 2.5rem;
+      max-width: 1200px; margin: 0 auto; width: 100%;
+      justify-content: center;
+    }
+    .founders-row {
+      display: flex; gap: 2rem; justify-content: center; width: 100%;
+    }
+    .founder-card {
+      flex: 1; background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 1.5rem; padding: 2rem;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      transition: all 0.3s;
+    }
+    .founder-card:hover { transform: translateY(-5px); border-color: rgba(244,155,11,0.2); background: rgba(255,255,255,0.04); }
+    .founder-img {
+      width: 110px; height: 110px; border-radius: 50%;
+      object-fit: cover; margin-bottom: 1.25rem;
+      border: 2px solid var(--orange); padding: 4px;
+      background: var(--dark-3);
+    }
+    .founder-name { font-size: 1.3rem; font-weight: 800; color: var(--white); margin-bottom: 0.25rem; }
+    .founder-role { font-size: 0.75rem; color: var(--orange); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.25rem; }
+    .founder-highlights {
+      list-style: none; text-align: left; width: 100%;
+      display: flex; flex-direction: column; gap: 0.6rem;
+    }
+    .founder-highlights li {
+      font-size: 0.82rem; color: var(--gray); line-height: 1.4;
+      display: flex; gap: 0.6rem;
+    }
+    .founder-highlights li::before { content: '→'; color: var(--orange); font-weight: 900; opacity: 0.7; }
+    
+    .team-lower {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+      border-top: 1px solid rgba(255,255,255,0.06); padding-top: 2rem;
+    }
+    .lower-sec h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--gray-dim); margin-bottom: 1.25rem; }
+    .logo-row { display: flex; gap: 2.5rem; align-items: center; flex-wrap: wrap; }
+    .logo-item { 
+      height: 50px; width: auto; opacity: 0.6; 
+      filter: brightness(0) invert(1); 
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+    }
+    .logo-item:hover { 
+      opacity: 1; 
+      filter: invert(70%) sepia(93%) saturate(1376%) hue-rotate(352deg) brightness(101%) contrast(101%);
+      transform: scale(1.1); 
+    }
+
     /* ── SLIDE — PROJECT (BROCHURE STYLE) ────────── */
     .proj-left {
       width: 44%; flex-shrink: 0; display: flex; flex-direction: column;
@@ -578,6 +631,63 @@ function buildAboutMission() {
       <div class="info-right">
         ${imgOrPh('assets/misc/mission.png','Sobre Nosotros & Misión','',
           'Imagen de misión<br><code>assets/misc/mission.png</code>')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildFounders() {
+  return `
+  <div class="slide" id="s2">
+    <div class="slide-bar orange"></div>
+    <div class="slide-body">
+      <div class="v-line"></div>
+      <div class="team-inner">
+        <div class="founders-row">
+          <div class="founder-card">
+            <img src="assets/team/Bryan.png" alt="Bryan Bolivar" class="founder-img"
+                 onerror="this.src='https://ui-avatars.com/api/?name=Bryan+Bolivar&background=222&color=fff'">
+            <h3 class="founder-name">Bryan Bolivar</h3>
+            <p class="founder-role">Arquitecto e ingeniero de sistemas</p>
+            <ul class="founder-highlights">
+              <li>+14 años liderando desarrollo móvil y arquitectura de sistemas para marcas globales como Expedia, Domino's y Blizzard.</li>
+              <li>Pionero en la implementación de IA generativa (RAG, MCP) en ecosistemas iOS/Android para optimización de procesos.</li>
+              <li>Fundador de la comunidad Swifticious y líder técnico de equipos multidisciplinarios internacionales.</li>
+            </ul>
+          </div>
+          <div class="founder-card">
+            <img src="assets/team/Jesus.png" alt="Jesús Barros" class="founder-img"
+                 onerror="this.src='https://ui-avatars.com/api/?name=Jesus+Barros&background=222&color=fff'">
+            <h3 class="founder-name">Jesús Barros</h3>
+            <p class="founder-role">Ingeniero de sistemas</p>
+            <ul class="founder-highlights">
+              <li>Co-fundador de FOMO (EventTech), liderando arquitectura tecnológica y visión de producto desde cero.</li>
+              <li>Gerencia de +30 proyectos tecnológicos complejos utilizando metodologías ágiles (Scrum, Kanban).</li>
+              <li>Especialista en Ciencia de Datos y Automatización con IA para escalamiento de startups y eficiencia operativa.</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="team-lower">
+          <div class="lower-sec">
+            <h3>Nuestra Formación</h3>
+            <div class="logo-row">
+              <img src="assets/Partners/mit.svg" alt="MIT" class="logo-item" title="MIT">
+              <img src="https://cdn.simpleicons.org/scrumalliance" alt="Scrum Alliance" 
+                   class="logo-item" title="Scrum Alliance" style="height: 95px">
+              <img src="assets/Partners/bvc.svg" alt="BVC" class="logo-item" title="BVC">
+              <img src="assets/Partners/emprelatam.svg" alt="Emprelatam" class="logo-item" title="Emprelatam">
+            </div>
+          </div>
+          <div class="lower-sec">
+            <h3>Partners Estratégicos</h3>
+            <div class="logo-row" style="margin-top: 2.5rem">
+              <img src="https://cdn.simpleicons.org/anthropic" alt="Claude" class="logo-item" title="Claude / Anthropic">
+              <img src="https://cdn.simpleicons.org/shopify" alt="Shopify" class="logo-item" title="Shopify">
+              <img src="https://cdn.simpleicons.org/hostinger" alt="Hostinger" class="logo-item" title="Hostinger">
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>`;
@@ -897,6 +1007,7 @@ document.addEventListener('keydown', e => {
   let html = '';
   html += buildCover();
   html += buildAboutMission();
+  html += buildFounders();
   html += buildRole();
   html += buildWorkflow();
   // html += buildServices();

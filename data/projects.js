@@ -134,10 +134,11 @@ window.PROJECTS = [
     client: "Activision Blizzard / Overwatch League",
     top: true,
     color: "#F99E1A",
-    description: "Ecosistema digital para la liga profesional de esports.",
-    challenge: "Desarrollo de interfaces dinámicas y sistemas de datos en tiempo real para fans.",
-    meta: { "Tipo": "Esports", "Duración": "Digital Strategy", "Plataforma": "Web" },
-    url: "#",
+    screenshot: "expedia.png", // Placeholder premium
+    description: "Desarrollo del ecosistema móvil para la Overwatch League, el epicentro mundial de los esports profesionales de Activision Blizzard. Trabajo centrado en potenciar la experiencia de millones de fans globales mediante aplicaciones nativas de alto rendimiento que ofrecen estadísticas en tiempo real, transmisiones en vivo y calendarios dinámicos.",
+    challenge: "Integrar flujos masivos de datos con baja latencia y colaborar con los equipos de ingeniería de Blizzard para cumplir con los estándares de calidad 'Triple-A'. El reto fue garantizar una navegación fluida y alertas críticas durante fases de alta concurrencia mundial.",
+    meta: { "Tipo": "Esports Ecosystem", "Duración": "2019 - 2020", "Plataforma": "iOS / Android", "Cliente": "Activision Blizzard" },
+    url: "https://overwatchleague.com/",
   },
 
   {
@@ -145,21 +146,23 @@ window.PROJECTS = [
     client: "Samsung Electronics",
     top: true,
     color: "#1428A0",
-    description: "Gigante coreano de electrónica y software.",
-    challenge: "Desarrollo de aplicaciones y ecosistemas conectados para dispositivos inteligentes.",
-    meta: { "Tipo": "Consumer Electronics", "Duración": "Consultoría", "Plataforma": "Cross-platform" },
-    url: "#",
+    screenshot: "cloudtask.png", // Placeholder premium
+    description: "Ingeniería y consultoría estratégica para Samsung Electronics en el ámbito de Big Data y Análisis Avanzado. Diseño e implementación de programas de formación técnica y modelos de minería de datos creados para extraer inteligencia accionable de grandes volúmenes de información.",
+    challenge: "Escalar arquitecturas de procesamiento y modelado de datos complejos para entornos de producción reales. El reto fue desarrollar marcos de trabajo que permitan la toma de decisiones basada en datos con precisión, optimizando KPIs críticos para la operación de Samsung.",
+    meta: { "Tipo": "Big Data / Engineering", "Duración": "2023 - 2024", "Plataforma": "Data Analytics", "Sede": "Lima - Seúl" },
+    url: "https://www.samsung.com/",
   },
 
   {
     name: "Escalable",
     client: "Escalable",
     top: true,
-    color: "#607D8B",
-    description: "Agencia de crecimiento y desarrollo estratégico.",
-    challenge: "Liderazgo técnico en la creación de productos digitales preparados para el crecimiento masivo.",
-    meta: { "Tipo": "Agencia / Consultoría", "Duración": "Liderazgo", "Plataforma": "Full-stack" },
-    url: "#",
+    color: "#455A64",
+    screenshot: "lobby.png", // Placeholder premium
+    description: "Liderazgo en ingeniería de IA y automatización estratégica. Implementación de soluciones disruptivas diseñadas para inyectar inteligencia artificial en el ADN operativo de empresas digitales, permitiendo un crecimiento acelerado mediante la optimización absoluta de procesos.",
+    challenge: "Diseñar e integrar modelos de IA y flujos de automatización (RPA, LLM, RAG) que resuelvan cuellos de botella de negocio reales. El reto fue garantizar que la tecnología impulse un ROI tangible y una escalabilidad operativa total para clientes de alto volumen.",
+    meta: { "Tipo": "AI & Automation", "Duración": "2024 - Presente", "Plataforma": "Full-stack IA", "Enfoque": "Scalability" },
+    url: "https://escalable.co/",
   },
 
   // ── OTROS PROYECTOS (Ordenados por fecha descendente) ─────────────────────
