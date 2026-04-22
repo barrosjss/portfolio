@@ -537,8 +537,14 @@
     /* ── PRINT / PDF ─────────────────────────────── */
     @page { size: landscape; margin: 0; }
     @media print {
-      html, body { overflow: visible; background: white; }
+      html, body {
+        overflow: visible;
+        background: #1A1A1A !important;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
       .nav-bar { display: none !important; }
+      #rotate-overlay { display: none !important; }
       #presentation { width: 100%; height: auto; position: static; }
       .slide {
         display: flex !important;
@@ -546,8 +552,56 @@
         page-break-after: always;
         width: 100%; height: 100vh;
         break-after: page;
+        background: var(--dark) !important;
       }
       .slide:last-child { page-break-after: avoid; break-after: avoid; }
+      /* Project slides: keep image + name + desc + challenge + btn, hide meta/note */
+      .proj-meta { display: none !important; }
+      .proj-note { display: none !important; }
+      /* Force background colors on dark panels */
+      .proj-right, .info-right, .role-right, .workflow-right,
+      .contact-right, .cover-bg::after { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      /* Lazy images: ensure src is set before print */
+      img[data-src]:not([src]) { content: url(attr(data-src)); }
+    }
+
+    /* ── MOBILE / ROTATE OVERLAY ─────────────────── */
+    #rotate-overlay {
+      display: none;
+      position: fixed; inset: 0; z-index: 99999;
+      background: var(--dark);
+      flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 2.5rem; gap: 1.75rem;
+    }
+    .rotate-icon {
+      font-size: 4rem; animation: spin-hint 2.5s ease-in-out infinite;
+    }
+    @keyframes spin-hint {
+      0%, 100% { transform: rotate(0deg); }
+      40%       { transform: rotate(-90deg); }
+      60%       { transform: rotate(-90deg); }
+    }
+    .rotate-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(1.4rem, 5vw, 2rem); font-weight: 700; color: var(--white);
+    }
+    .rotate-title span { color: var(--orange); }
+    .rotate-sub {
+      font-size: 0.95rem; color: var(--gray); line-height: 1.7; max-width: 320px;
+    }
+    .rotate-badge {
+      background: rgba(244,155,11,0.1); border: 1px solid rgba(244,155,11,0.3);
+      color: var(--orange); padding: 0.5rem 1.25rem; border-radius: 2rem;
+      font-family: 'Poppins', sans-serif; font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    /* Show overlay in portrait or very narrow landscape */
+    @media (orientation: portrait) and (max-width: 1024px) {
+      #rotate-overlay { display: flex; }
+    }
+    @media (orientation: landscape) and (max-height: 450px) and (max-width: 900px) {
+      #rotate-overlay { display: flex; }
     }
   </style>
 </head>
@@ -561,6 +615,13 @@
   <button id="btn-next" onclick="go(cur+1)">Siguiente →</button>
   <button class="pdf-btn" onclick="window.print()">↓ PDF</button>
 </nav>
+
+<div id="rotate-overlay">
+  <div class="rotate-icon">📱</div>
+  <div class="logo-mark" style="font-size:1.8rem"><span class="br">{</span>Coder<strong>Labs</strong><span class="br">_</span></div>
+  <p class="rotate-sub">Esta presentación está optimizada para verse en <strong style="color:var(--white)">modo horizontal</strong>. Rota tu dispositivo para la mejor experiencia.</p>
+  <span class="rotate-badge">↻ Rotar pantalla</span>
+</div>
 
 <script src="data/projects.js"></script>
 <script>
