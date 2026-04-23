@@ -1,643 +1,1166 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CoderLabs — Brochure 2026</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://cdn.simpleicons.org">
-  <link rel="preload" href="assets/hero/hero.png" as="image">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --orange:    #F49B0B;
-      --orange-d:  #C97D00;
-      --teal:      #3D9B8A;
-      --pink:      #C94070;
-      --dark:      #1A1A1A;
-      --dark-2:    #222222;
-      --dark-3:    #2C2C2C;
-      --dark-4:    #383838;
-      --white:     #FFFFFF;
-      --gray:      #BBBBBB;
-      --gray-dim:  #777777;
-    }
-
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    html, body {
-      width: 100%; height: 100%;
-      background: #0D0D0D;
-      font-family: 'Roboto', sans-serif;
-      color: var(--white);
-      overflow: hidden;
-    }
-
-    /* ── SLIDE SYSTEM ─────────────────────────────── */
-    #presentation { width: 100vw; height: 100vh; position: relative; }
-
-    /* Lazy image fade-in */
-    img.lazy { opacity: 0; transition: opacity 0.25s ease; }
-    img.lazy.img-loaded { opacity: 1; }
-
-    .slide {
-      position: absolute; inset: 0;
-      display: none;
-      flex-direction: column;
-      contain: layout style;
-      background: var(--dark);
-    }
-    .slide.active { display: flex; }
-
-    .slide-bar { height: 4px; flex-shrink: 0; }
-    .slide-bar.orange { background: linear-gradient(90deg, var(--orange), var(--orange-d)); }
-    .slide-bar.teal   { background: linear-gradient(90deg, var(--teal), #2A7A6B); }
-    .slide-bar.pink   { background: linear-gradient(90deg, var(--pink), #8C1A3A); }
-    .slide-bar.multi  { background: linear-gradient(90deg, var(--orange) 0%, var(--teal) 50%, var(--pink) 100%); }
-    .slide-bar.alt    { background: linear-gradient(90deg, var(--orange), var(--teal)); }
-
-    .slide-body { flex: 1; display: flex; min-height: 0; }
-
-    /* ── ACCENT VERTICAL LINE ─────────────────────── */
-    .v-line {
-      width: 4px; flex-shrink: 0; background: var(--orange);
-      border-radius: 0 2px 2px 0;
-    }
-
-    /* ── TYPOGRAPHY UTILS ─────────────────────────── */
-    .label {
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.7rem; font-weight: 700;
-      letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--orange); margin-bottom: 0.6rem;
-    }
-    .label.teal { color: var(--teal); }
-    .label.pink { color: var(--pink); }
-
-    h1.title {
-      font-family: 'Poppins', sans-serif;
-      font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 700; line-height: 1.15;
-    }
-    h2.title {
-      font-family: 'Poppins', sans-serif;
-      font-size: clamp(1.6rem, 2.8vw, 2.4rem); font-weight: 700; line-height: 1.2;
-    }
-    h3.title {
-      font-family: 'Poppins', sans-serif;
-      font-size: clamp(1.2rem, 2vw, 1.6rem); font-weight: 700;
-    }
-
-    p.body { font-size: 0.95rem; color: var(--gray); line-height: 1.8; }
-
-    .logo-mark {
-      font-family: 'Poppins', sans-serif;
-      font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 400; line-height: 1;
-    }
-    .logo-mark .br { color: var(--orange); }
-    .logo-mark strong { font-weight: 800; }
-
-    /* ── TAG PILLS ────────────────────────────────── */
-    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .tag {
-      background: rgba(244,155,11,0.12);
-      color: var(--orange);
-      border: 1px solid rgba(244,155,11,0.3);
-      padding: 0.2rem 0.7rem;
-      border-radius: 2rem;
-      font-size: 0.72rem; font-weight: 600;
-    }
-    .tag.teal { background: rgba(61,155,138,0.12); color: var(--teal); border-color: rgba(61,155,138,0.3); }
-
-    /* ── IMG PLACEHOLDER ──────────────────────────── */
-    .ph {
-      background: var(--dark-3);
-      border: 1px dashed rgba(244,155,11,0.25);
-      border-radius: 0.75rem;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 0.5rem;
-      color: var(--gray-dim); font-size: 0.75rem; text-align: center;
-      padding: 1.5rem;
-    }
-    .ph code { color: rgba(244,155,11,0.7); font-size: 0.7rem; }
-
-    /* ── NAVIGATION BAR ───────────────────────────── */
-    .nav-bar {
-      position: fixed; bottom: 1.75rem; left: 50%; transform: translateX(-50%);
-      display: flex; align-items: center; gap: 1.25rem;
-      background: rgba(20,20,20,0.92);
-      border: 1px solid rgba(244,155,11,0.25);
-      border-radius: 3rem; padding: 0.6rem 1.4rem;
-      backdrop-filter: blur(12px);
-      z-index: 9999;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-    }
-    .nav-bar button {
-      background: transparent;
-      border: 1px solid var(--orange); color: var(--orange);
-      padding: 0.4rem 1.1rem; border-radius: 2rem; cursor: pointer;
-      font-family: 'Poppins', sans-serif; font-size: 0.78rem; font-weight: 600;
-      letter-spacing: 0.05em; text-transform: uppercase; transition: all 0.18s;
-    }
-    .nav-bar button:hover { background: var(--orange); color: var(--dark); }
-    .nav-bar button:disabled { opacity: 0.3; cursor: default; }
-    .nav-bar button:disabled:hover { background: transparent; color: var(--orange); }
-    .nav-bar .pdf-btn { border-color: var(--teal); color: var(--teal); }
-    .nav-bar .pdf-btn:hover { background: var(--teal); color: white; }
-    .nav-bar .counter {
-      font-family: 'Poppins', sans-serif; font-size: 0.8rem; color: var(--gray-dim);
-      min-width: 3.5rem; text-align: center;
-    }
-
-    /* ── SLIDE 1 — COVER ──────────────────────────── */
-    .cover-bg {
-      position: absolute; inset: 0;
-      background-size: cover; background-position: center;
-      background-repeat: no-repeat;
-    }
-    .cover-bg::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(110deg, rgba(20,20,20,0.95) 50%, rgba(20,20,20,0.55) 100%);
-    }
-    .cover-content {
-      position: relative; z-index: 1;
-      width: 50%;
-      display: flex; flex-direction: column;
-      justify-content: center; align-items: flex-start;
-      padding: 5vh 5vw; gap: 1.5rem;
-    }
-    .cover-headline {
-      font-size: clamp(2.4rem, 4.2vw, 4rem); font-weight: 700; line-height: 1.1;
-    }
-    .cover-headline span { color: var(--orange); }
-    .cover-year {
-      position: absolute; bottom: 2rem; right: 3rem; z-index: 1;
-      font-family: 'Poppins', sans-serif; font-size: clamp(4rem, 8vw, 7rem); font-weight: 800;
-      color: rgba(244,155,11,0.07); line-height: 1; pointer-events: none;
-    }
-
-    /* ── TEXT COLUMN CONSTRAINT ───────────────────── */
-    .text-col {
-      max-width: 480px; width: 100%;
-      display: flex; flex-direction: column; gap: 1.25rem;
-    }
-
-    /* ── SLIDE — 2-COL INFO (About / Mission) ─────── */
-    .info-left {
-      flex: 1; display: flex; flex-direction: column;
-      justify-content: center; align-items: center;
-      padding: 4vw 3vw;
-      gap: 1.25rem; position: relative;
-    }
-    .info-right {
-      width: 44%; flex-shrink: 0; background: var(--dark-2);
-      display: flex; align-items: center; justify-content: center;
-      padding: 3rem;
-    }
-    .info-right img { width: 100%; border-radius: 0.75rem; max-height: 65vh; object-fit: contain; }
-
-    /* ── SLIDE — ROLE / TECH STACK ───────────────── */
-    .role-left {
-      flex: 1; display: flex; flex-direction: column;
-      justify-content: center; align-items: center;
-      padding: 4vw 3vw; gap: 1.25rem;
-    }
-    .role-right {
-      width: 52%; background: var(--dark-2);
-      display: flex; align-items: center; justify-content: center;
-      padding: 3rem 2.5rem;
-    }
-    .tech-grid {
-      display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem;
-      width: 100%;
-    }
-    .tech-icon {
-      aspect-ratio: 1/1;
-      background: var(--dark-3);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 12px;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 0.3rem;
-      padding: 0.5rem;
-      transition: border-color 0.2s;
-    }
-    .tech-icon:hover { border-color: rgba(244,155,11,0.4); }
-    .tech-icon img { width: 60%; height: 60%; object-fit: contain; }
-    .tech-icon span { font-size: 0.55rem; color: var(--gray-dim); text-align: center; }
-
-    /* ── SLIDE — WORKFLOW ────────────────────────── */
-    .workflow-inner {
-      flex: 1; display: flex; flex-direction: column;
-      padding: 4vw 5vw; gap: 1.25rem;
-      max-width: 1200px; margin: 0 auto; width: 100%;
-    }
-    .workflow-img { flex: 1; min-height: 0; }
-    .workflow-img img {
-      width: 100%; height: 100%; object-fit: contain;
-      border-radius: 0.75rem;
-    }
-    .stage-pills {
-      flex: 1; display: grid;
-      grid-template-columns: repeat(5, 1fr); gap: 0.75rem;
-      align-content: center;
-    }
-    .stage-pill {
-      background: var(--dark-2); border-radius: 0.5rem;
-      padding: 1rem 0.75rem; text-align: center;
-      border-top: 3px solid var(--orange);
-    }
-    .stage-pill .n {
-      font-family: 'Poppins', sans-serif; font-size: 1.6rem;
-      font-weight: 800; color: var(--orange); line-height: 1;
-    }
-    .stage-pill .name {
-      font-size: 0.62rem; color: var(--gray); text-transform: uppercase;
-      letter-spacing: 0.05em; margin-top: 0.35rem; line-height: 1.3;
-    }
-
-    /* ── SLIDE — WORKFLOW ────────────────────────── */
-    .workflow-left {
-      flex: 1; display: flex; flex-direction: column;
-      justify-content: center; align-items: center;
-      padding: 4vw 3vw; gap: 1.25rem;
-    }
-    .workflow-right {
-      width: 52%; background: var(--dark-2);
-      display: flex; align-items: center; justify-content: center;
-      padding: 3rem 2.5rem;
-    }
-
-    /* ── SLIDE — SERVICES ────────────────────────── */
-    .services-inner {
-      flex: 1; display: flex; flex-direction: column;
-      padding: 4vw 5vw; gap: 1.25rem;
-      max-width: 1200px; margin: 0 auto; width: 100%;
-    }
-    .services-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem; flex: 1; align-content: center;
-    }
-    .svc-card {
-      background: var(--dark-2);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 1rem; padding: 1.75rem 1.5rem;
-      border-top: 3px solid var(--orange);
-      display: flex; flex-direction: column; gap: 1rem;
-    }
-    .svc-card.teal { border-top-color: var(--teal); }
-    .svc-card.pink { border-top-color: var(--pink); }
-    .svc-card h3 {
-      font-family: 'Poppins', sans-serif; font-size: 1.05rem; font-weight: 700;
-    }
-    .svc-card ul { list-style: none; color: var(--gray); font-size: 0.88rem; line-height: 2.1; }
-    .svc-card ul li::before { content: '→ '; color: var(--orange); }
-    .svc-card.teal ul li::before { color: var(--teal); }
-    .svc-card.pink ul li::before { color: var(--pink); }
-
-    /* ── SLIDE — TEAM / FOUNDERS ─────────────────── */
-    .team-inner {
-      flex: 1; display: flex; flex-direction: column;
-      padding: 3vh 5vw; gap: 2.5rem;
-      max-width: 1200px; margin: 0 auto; width: 100%;
-      justify-content: center;
-    }
-    .founders-row {
-      display: flex; gap: 2rem; justify-content: center; width: 100%;
-    }
-    .founder-card {
-      flex: 1; background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 1.5rem; padding: 2rem;
-      display: flex; flex-direction: column; align-items: center; text-align: center;
-      transition: all 0.3s;
-    }
-    .founder-card:hover { transform: translateY(-5px); border-color: rgba(244,155,11,0.2); background: rgba(255,255,255,0.04); }
-    .founder-img {
-      width: 110px; height: 110px; border-radius: 50%;
-      object-fit: cover; margin-bottom: 1.25rem;
-      border: 2px solid var(--orange); padding: 4px;
-      background: var(--dark-3);
-    }
-    .founder-name { font-size: 1.3rem; font-weight: 800; color: var(--white); margin-bottom: 0.25rem; }
-    .founder-role { font-size: 0.75rem; color: var(--orange); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.25rem; }
-    .founder-highlights {
-      list-style: none; text-align: left; width: 100%;
-      display: flex; flex-direction: column; gap: 0.6rem;
-    }
-    .founder-highlights li {
-      font-size: 0.82rem; color: var(--gray); line-height: 1.4;
-      display: flex; gap: 0.6rem;
-    }
-    .founder-highlights li::before { content: '→'; color: var(--orange); font-weight: 900; opacity: 0.7; }
-    
-    .team-lower {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
-      border-top: 1px solid rgba(255,255,255,0.06); padding-top: 2rem;
-    }
-    .lower-sec h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--gray-dim); margin-bottom: 1.25rem; }
-    .logo-row { display: flex; gap: 2.5rem; align-items: center; flex-wrap: wrap; }
-    .logo-item { 
-      height: 50px; width: auto; opacity: 0.6; 
-      filter: brightness(0) invert(1); 
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-    }
-    .logo-item:hover { 
-      opacity: 1; 
-      filter: invert(70%) sepia(93%) saturate(1376%) hue-rotate(352deg) brightness(101%) contrast(101%);
-      transform: scale(1.1); 
-    }
-
-    /* ── SLIDE — PROJECT (BROCHURE STYLE) ────────── */
-    .proj-left {
-      width: 44%; flex-shrink: 0; display: flex; flex-direction: column;
-      padding: 5vh 5vw; gap: 1.5rem;
-      border-right: 1px solid rgba(255,255,255,0.05);
-      position: relative; overflow-y: auto;
-    }
-    .proj-label {
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.85rem; font-weight: 800; color: var(--accent);
-      letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.2rem;
-      display: flex; align-items: center; gap: 0.75rem;
-    }
-    .proj-badge {
-      font-size: 0.65rem; background: var(--accent); color: white;
-      padding: 0.15rem 0.6rem; border-radius: 2rem; letter-spacing: 0.05em;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-
-    .proj-title {
-      font-family: 'Poppins', sans-serif;
-      font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 800; line-height: 1.1;
-      margin-bottom: 0.5rem;
-    }
-    .proj-client-logo { 
-      height: clamp(60px, 8vw, 90px); 
-      width: auto; 
-      object-fit: contain; 
-      object-position: left; 
-      margin-bottom: 0.75rem; 
-      border-radius: 18px;
-    }
-    
-    .proj-content { display: flex; flex-direction: column; gap: 1.4rem; width: 100%; }
-    .proj-desc { font-size: 0.95rem; color: var(--gray); line-height: 1.7; }
-    .proj-challenge-label {
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.85rem; font-weight: 800; color: var(--accent);
-      margin-bottom: 0.4rem; letter-spacing: 0.05em;
-    }
-    .proj-challenge-text { font-size: 0.9rem; color: var(--gray); line-height: 1.7; }
-
-    .proj-footer {
-      margin-top: auto; display: flex; flex-direction: column; gap: 1.8rem;
-    }
-    .proj-note {
-      margin-top: 1rem; font-size: 0.75rem; color: rgba(255,255,255,0.35);
-      background: rgba(255,255,255,0.03); padding: 0.6rem 0.8rem; border-radius: 6px;
-      display: flex; gap: 0.5rem; line-height: 1.4; font-style: italic;
-      border: 1px solid rgba(255,255,255,0.02);
-    }
-    .proj-note span { opacity: 0.5; font-style: normal; }
-    .proj-btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      padding: 0.8rem 1.6rem; border-radius: 3rem;
-      background: transparent; border: 1px solid var(--accent);
-      color: var(--accent); font-family: 'Poppins', sans-serif;
-      font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.05em; text-decoration: none; transition: all 0.2s;
-      width: fit-content;
-    }
-    .proj-btn:hover { background: var(--accent); color: white; transform: scale(1.05); }
-
-    .proj-meta {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem;
-      padding: 1.25rem 0; border-top: 1px solid rgba(255,255,255,0.05);
-    }
-    .proj-meta-item .mk { 
-      font-size: 0.65rem; color: var(--accent); 
-      text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700;
-      margin-bottom: 0.2rem;
-    }
-    .proj-meta-item .mv {
-      font-family: 'Poppins', sans-serif; font-size: 0.8rem; 
-      font-weight: 600; color: var(--white);
-    }
-
-    .proj-right {
-      flex: 1; background: var(--dark-2);
-      display: flex; flex-direction: column; position: relative;
-    }
-    .proj-showcase {
-      flex: 1; display: flex; align-items: center; justify-content: center;
-      padding: 4rem;
-    }
-
-    /* BROWSER FRAME PREMIUM */
-    .browser-frame {
-      width: fit-content; max-width: 95%; background: #0F0F0F; 
-      border-radius: 12px; overflow: hidden;
-      box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 10px 30px rgba(0,0,0,0.4);
-      border: 1px solid rgba(255,255,255,0.08);
-      display: flex; flex-direction: column;
-      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    }
-    .browser-header {
-      background: #1C1C1E; padding: 0 16px; height: 38px;
-      display: flex; align-items: center; position: relative;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .browser-dots { display: flex; gap: 8px; align-items: center; }
-    .dot { width: 11px; height: 11px; border-radius: 50%; }
-    .dot.r { background: #FF5F56; }
-    .dot.y { background: #FFBD2E; }
-    .dot.g { background: #27C93F; }
-    
-    .browser-address-bar {
-      position: absolute; left: 50%; transform: translateX(-50%);
-      background: rgba(255,255,255,0.05); border-radius: 6px;
-      padding: 4px 12px; min-width: 35%; max-width: 60%;
-      height: 22px; display: flex; align-items: center; justify-content: center;
-      border: 1px solid rgba(255,255,255,0.03);
-    }
-    .browser-url {
-      font-family: inherit; font-size: 0.65rem; color: rgba(255,255,255,0.3);
-      text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-
-    .browser-body { line-height: 0; background: #fff; }
-    
-    .proj-showcase img { 
-      max-width: 90%; max-height: 80vh; 
-      object-fit: contain; 
-      filter: drop-shadow(0 20px 50px rgba(0,0,0,0.6));
-      border-radius: 1rem;
-    }
-    /* Override for browser images */
-    .browser-body img { 
-      width: 100%; height: auto; 
-      border-radius: 0 !important; 
-      filter: none !important; 
-      max-width: 100% !important;
-      max-height: none !important;
-    }
-
-
-    /* ── SLIDE — CONTACT ─────────────────────────── */
-    .contact-left {
-      flex: 1; display: flex; flex-direction: column;
-      justify-content: center; align-items: center;
-      padding: 4vw 3vw; gap: 1.5rem; position: relative;
-    }
-    .contact-text {
-      max-width: 480px; width: 100%;
-      display: flex; flex-direction: column; gap: 1.5rem;
-    }
-    .contact-info { display: flex; flex-direction: column; gap: 1rem; }
-    .contact-row {
-      display: flex; align-items: center; gap: 1rem;
-      font-size: 0.95rem; color: var(--gray);
-    }
-    .contact-row .ico {
-      width: 2.4rem; height: 2.4rem; flex-shrink: 0;
-      background: rgba(244,155,11,0.08);
-      border: 1px solid rgba(244,155,11,0.25);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem;
-    }
-    .contact-row a { color: var(--orange); text-decoration: none; }
-    .social-links { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem; }
-    .social-link {
-      color: var(--gray-dim); font-size: 0.82rem; text-decoration: none;
-      display: flex; align-items: center; gap: 0.35rem; transition: color 0.2s;
-    }
-    .social-link:hover { color: var(--orange); }
-    .contact-right {
-      width: 36%; flex-shrink: 0;
-      background: var(--orange);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 1rem; padding: 3rem 2.5rem;
-    }
-    .contact-right .yr {
-      font-family: 'Poppins', sans-serif; font-size: clamp(4rem, 7vw, 6rem);
-      font-weight: 800; color: white; line-height: 1;
-    }
-    .contact-right .cta-now {
-      font-family: 'Poppins', sans-serif; font-size: 1.1rem;
-      color: rgba(255,255,255,0.8); text-align: center;
-    }
-    .contact-right .cta-now strong {
-      display: block; font-size: clamp(1.6rem, 2.5vw, 2.2rem);
-      font-weight: 800; color: white; margin-top: 0.2rem;
-    }
-
-    /* ── PRINT / PDF ─────────────────────────────── */
-    @page { size: landscape; margin: 0; }
-    @media print {
-      html, body {
-        overflow: visible;
-        background: #1A1A1A !important;
-        print-color-adjust: exact;
-        -webkit-print-color-adjust: exact;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CoderLabs — Brochure 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.simpleicons.org" />
+    <link rel="preload" href="assets/hero/hero.png" as="image" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --orange: #f49b0b;
+        --orange-d: #c97d00;
+        --teal: #3d9b8a;
+        --pink: #c94070;
+        --dark: #1a1a1a;
+        --dark-2: #222222;
+        --dark-3: #2c2c2c;
+        --dark-4: #383838;
+        --white: #ffffff;
+        --gray: #bbbbbb;
+        --gray-dim: #777777;
       }
-      .nav-bar { display: none !important; }
-      #rotate-overlay { display: none !important; }
-      #presentation { width: 100%; height: auto; position: static; }
-      .slide {
-        display: flex !important;
+
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        background: #0d0d0d;
+        font-family: "Roboto", sans-serif;
+        color: var(--white);
+        overflow: hidden;
+      }
+
+      /* ── SLIDE SYSTEM ─────────────────────────────── */
+      #presentation {
+        width: 100vw;
+        height: 100vh;
         position: relative;
-        page-break-after: always;
-        width: 100%; height: 100vh;
-        break-after: page;
-        background: var(--dark) !important;
       }
-      .slide:last-child { page-break-after: avoid; break-after: avoid; }
-      /* Project slides: keep image + name + desc + challenge + btn, hide meta/note */
-      .proj-meta { display: none !important; }
-      .proj-note { display: none !important; }
-      /* Force background colors on dark panels */
-      .proj-right, .info-right, .role-right, .workflow-right,
-      .contact-right, .cover-bg::after { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-      /* Lazy images: ensure src is set before print */
-      img[data-src]:not([src]) { content: url(attr(data-src)); }
-    }
 
-    /* ── MOBILE / ROTATE OVERLAY ─────────────────── */
-    #rotate-overlay {
-      display: none;
-      position: fixed; inset: 0; z-index: 99999;
-      background: var(--dark);
-      flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center; padding: 2.5rem; gap: 1.75rem;
-    }
-    .rotate-icon {
-      font-size: 4rem; animation: spin-hint 2.5s ease-in-out infinite;
-    }
-    @keyframes spin-hint {
-      0%, 100% { transform: rotate(0deg); }
-      40%       { transform: rotate(-90deg); }
-      60%       { transform: rotate(-90deg); }
-    }
-    .rotate-title {
-      font-family: 'Poppins', sans-serif;
-      font-size: clamp(1.4rem, 5vw, 2rem); font-weight: 700; color: var(--white);
-    }
-    .rotate-title span { color: var(--orange); }
-    .rotate-sub {
-      font-size: 0.95rem; color: var(--gray); line-height: 1.7; max-width: 320px;
-    }
-    .rotate-badge {
-      background: rgba(244,155,11,0.1); border: 1px solid rgba(244,155,11,0.3);
-      color: var(--orange); padding: 0.5rem 1.25rem; border-radius: 2rem;
-      font-family: 'Poppins', sans-serif; font-size: 0.75rem; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-    }
-    /* Show overlay in portrait or very narrow landscape */
-    @media (orientation: portrait) and (max-width: 1024px) {
-      #rotate-overlay { display: flex; }
-    }
-    @media (orientation: landscape) and (max-height: 450px) and (max-width: 900px) {
-      #rotate-overlay { display: flex; }
-    }
-  </style>
-</head>
-<body>
+      /* Lazy image fade-in */
+      img.lazy {
+        opacity: 0;
+        transition: opacity 0.25s ease;
+      }
+      img.lazy.img-loaded {
+        opacity: 1;
+      }
 
-<div id="presentation"></div>
+      .slide {
+        position: absolute;
+        inset: 0;
+        display: none;
+        flex-direction: column;
+        contain: layout style;
+        background: var(--dark);
+      }
+      .slide.active {
+        display: flex;
+      }
 
-<nav class="nav-bar">
-  <button id="btn-prev" onclick="go(cur-1)">← Anterior</button>
-  <span class="counter" id="counter">1 / 1</span>
-  <button id="btn-next" onclick="go(cur+1)">Siguiente →</button>
-  <button class="pdf-btn" onclick="window.print()">↓ PDF</button>
-</nav>
+      .slide-bar {
+        height: 4px;
+        flex-shrink: 0;
+      }
+      .slide-bar.orange {
+        background: linear-gradient(90deg, var(--orange), var(--orange-d));
+      }
+      .slide-bar.teal {
+        background: linear-gradient(90deg, var(--teal), #2a7a6b);
+      }
+      .slide-bar.pink {
+        background: linear-gradient(90deg, var(--pink), #8c1a3a);
+      }
+      .slide-bar.multi {
+        background: linear-gradient(
+          90deg,
+          var(--orange) 0%,
+          var(--teal) 50%,
+          var(--pink) 100%
+        );
+      }
+      .slide-bar.alt {
+        background: linear-gradient(90deg, var(--orange), var(--teal));
+      }
 
-<div id="rotate-overlay">
-  <div class="rotate-icon">📱</div>
-  <div class="logo-mark" style="font-size:1.8rem"><span class="br">{</span>Coder<strong>Labs</strong><span class="br">_</span></div>
-  <p class="rotate-sub">Esta presentación está optimizada para verse en <strong style="color:var(--white)">modo horizontal</strong>. Rota tu dispositivo para la mejor experiencia.</p>
-  <span class="rotate-badge">↻ Rotar pantalla</span>
-</div>
+      .slide-body {
+        flex: 1;
+        display: flex;
+        min-height: 0;
+      }
 
-<script src="data/projects.js"></script>
-<script>
-// ═══════════════════════════════════════════════
-// SLIDE BUILDERS
-// ═══════════════════════════════════════════════
+      /* ── ACCENT VERTICAL LINE ─────────────────────── */
+      .v-line {
+        width: 4px;
+        flex-shrink: 0;
+        background: var(--orange);
+        border-radius: 0 2px 2px 0;
+      }
 
-function imgOrPh(src, alt, cls, phText) {
-  return `<img data-src="${src}" alt="${alt}" class="lazy ${cls}"
+      /* ── TYPOGRAPHY UTILS ─────────────────────────── */
+      .label {
+        font-family: "Poppins", sans-serif;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--orange);
+        margin-bottom: 0.6rem;
+      }
+      .label.teal {
+        color: var(--teal);
+      }
+      .label.pink {
+        color: var(--pink);
+      }
+
+      h1.title {
+        font-family: "Poppins", sans-serif;
+        font-size: clamp(2rem, 3.5vw, 3rem);
+        font-weight: 700;
+        line-height: 1.15;
+      }
+      h2.title {
+        font-family: "Poppins", sans-serif;
+        font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+        font-weight: 700;
+        line-height: 1.2;
+      }
+      h3.title {
+        font-family: "Poppins", sans-serif;
+        font-size: clamp(1.2rem, 2vw, 1.6rem);
+        font-weight: 700;
+      }
+
+      p.body {
+        font-size: 0.95rem;
+        color: var(--gray);
+        line-height: 1.8;
+      }
+
+      .logo-mark {
+        font-family: "Poppins", sans-serif;
+        font-size: clamp(1.8rem, 3vw, 2.8rem);
+        font-weight: 400;
+        line-height: 1;
+      }
+      .logo-mark .br {
+        color: var(--orange);
+      }
+      .logo-mark strong {
+        font-weight: 800;
+      }
+
+      /* ── TAG PILLS ────────────────────────────────── */
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+      .tag {
+        background: rgba(244, 155, 11, 0.12);
+        color: var(--orange);
+        border: 1px solid rgba(244, 155, 11, 0.3);
+        padding: 0.2rem 0.7rem;
+        border-radius: 2rem;
+        font-size: 0.72rem;
+        font-weight: 600;
+      }
+      .tag.teal {
+        background: rgba(61, 155, 138, 0.12);
+        color: var(--teal);
+        border-color: rgba(61, 155, 138, 0.3);
+      }
+
+      /* ── IMG PLACEHOLDER ──────────────────────────── */
+      .ph {
+        background: var(--dark-3);
+        border: 1px dashed rgba(244, 155, 11, 0.25);
+        border-radius: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        color: var(--gray-dim);
+        font-size: 0.75rem;
+        text-align: center;
+        padding: 1.5rem;
+      }
+      .ph code {
+        color: rgba(244, 155, 11, 0.7);
+        font-size: 0.7rem;
+      }
+
+      /* ── NAVIGATION BAR ───────────────────────────── */
+      .nav-bar {
+        position: fixed;
+        bottom: 1.75rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        background: rgba(20, 20, 20, 0.92);
+        border: 1px solid rgba(244, 155, 11, 0.25);
+        border-radius: 3rem;
+        padding: 0.6rem 1.4rem;
+        backdrop-filter: blur(12px);
+        z-index: 9999;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      }
+      .nav-bar button {
+        background: transparent;
+        border: 1px solid var(--orange);
+        color: var(--orange);
+        padding: 0.4rem 1.1rem;
+        border-radius: 2rem;
+        cursor: pointer;
+        font-family: "Poppins", sans-serif;
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        transition: all 0.18s;
+      }
+      .nav-bar button:hover {
+        background: var(--orange);
+        color: var(--dark);
+      }
+      .nav-bar button:disabled {
+        opacity: 0.3;
+        cursor: default;
+      }
+      .nav-bar button:disabled:hover {
+        background: transparent;
+        color: var(--orange);
+      }
+      .nav-bar .pdf-btn {
+        border-color: var(--teal);
+        color: var(--teal);
+      }
+      .nav-bar .pdf-btn:hover {
+        background: var(--teal);
+        color: white;
+      }
+      .nav-bar .counter {
+        font-family: "Poppins", sans-serif;
+        font-size: 0.8rem;
+        color: var(--gray-dim);
+        min-width: 3.5rem;
+        text-align: center;
+      }
+
+      /* ── SLIDE 1 — COVER ──────────────────────────── */
+      .cover-bg {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      .cover-bg::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          110deg,
+          rgba(20, 20, 20, 0.95) 50%,
+          rgba(20, 20, 20, 0.55) 100%
+        );
+      }
+      .cover-content {
+        position: relative;
+        z-index: 1;
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 5vh 5vw;
+        gap: 1.5rem;
+      }
+      .cover-headline {
+        font-size: clamp(2.4rem, 4.2vw, 4rem);
+        font-weight: 700;
+        line-height: 1.1;
+      }
+      .cover-headline span {
+        color: var(--orange);
+      }
+      .cover-year {
+        position: absolute;
+        bottom: 2rem;
+        right: 3rem;
+        z-index: 1;
+        font-family: "Poppins", sans-serif;
+        font-size: clamp(4rem, 8vw, 7rem);
+        font-weight: 800;
+        color: rgba(244, 155, 11, 0.07);
+        line-height: 1;
+        pointer-events: none;
+      }
+
+      /* ── TEXT COLUMN CONSTRAINT ───────────────────── */
+      .text-col {
+        max-width: 480px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+
+      /* ── SLIDE — 2-COL INFO (About / Mission) ─────── */
+      .info-left {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 4vw 3vw;
+        gap: 1.25rem;
+        position: relative;
+      }
+      .info-right {
+        width: 44%;
+        flex-shrink: 0;
+        background: var(--dark-2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem;
+      }
+      .info-right img {
+        width: 100%;
+        border-radius: 0.75rem;
+        max-height: 65vh;
+        object-fit: contain;
+      }
+
+      /* ── SLIDE — ROLE / TECH STACK ───────────────── */
+      .role-left {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 4vw 3vw;
+        gap: 1.25rem;
+      }
+      .role-right {
+        width: 52%;
+        background: var(--dark-2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem 2.5rem;
+      }
+      .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1rem;
+        width: 100%;
+      }
+      .tech-icon {
+        aspect-ratio: 1/1;
+        background: var(--dark-3);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.3rem;
+        padding: 0.5rem;
+        transition: border-color 0.2s;
+      }
+      .tech-icon:hover {
+        border-color: rgba(244, 155, 11, 0.4);
+      }
+      .tech-icon img {
+        width: 60%;
+        height: 60%;
+        object-fit: contain;
+      }
+      .tech-icon span {
+        font-size: 0.55rem;
+        color: var(--gray-dim);
+        text-align: center;
+      }
+
+      /* ── SLIDE — WORKFLOW ────────────────────────── */
+      .workflow-inner {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 4vw 5vw;
+        gap: 1.25rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+      }
+      .workflow-img {
+        flex: 1;
+        min-height: 0;
+      }
+      .workflow-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 0.75rem;
+      }
+      .stage-pills {
+        flex: 1;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0.75rem;
+        align-content: center;
+      }
+      .stage-pill {
+        background: var(--dark-2);
+        border-radius: 0.5rem;
+        padding: 1rem 0.75rem;
+        text-align: center;
+        border-top: 3px solid var(--orange);
+      }
+      .stage-pill .n {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--orange);
+        line-height: 1;
+      }
+      .stage-pill .name {
+        font-size: 0.62rem;
+        color: var(--gray);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-top: 0.35rem;
+        line-height: 1.3;
+      }
+
+      /* ── SLIDE — WORKFLOW ────────────────────────── */
+      .workflow-left {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 4vw 3vw;
+        gap: 1.25rem;
+      }
+      .workflow-right {
+        width: 52%;
+        background: var(--dark-2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem 2.5rem;
+      }
+
+      /* ── SLIDE — SERVICES ────────────────────────── */
+      .services-inner {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 4vw 5vw;
+        gap: 1.25rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+      }
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        flex: 1;
+        align-content: center;
+      }
+      .svc-card {
+        background: var(--dark-2);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 1rem;
+        padding: 1.75rem 1.5rem;
+        border-top: 3px solid var(--orange);
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .svc-card.teal {
+        border-top-color: var(--teal);
+      }
+      .svc-card.pink {
+        border-top-color: var(--pink);
+      }
+      .svc-card h3 {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.05rem;
+        font-weight: 700;
+      }
+      .svc-card ul {
+        list-style: none;
+        color: var(--gray);
+        font-size: 0.88rem;
+        line-height: 2.1;
+      }
+      .svc-card ul li::before {
+        content: "→ ";
+        color: var(--orange);
+      }
+      .svc-card.teal ul li::before {
+        color: var(--teal);
+      }
+      .svc-card.pink ul li::before {
+        color: var(--pink);
+      }
+
+      /* ── SLIDE — TEAM / FOUNDERS ─────────────────── */
+      .team-inner {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 3vh 5vw;
+        gap: 2.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+        justify-content: center;
+      }
+      .founders-row {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        width: 100%;
+      }
+      .founder-card {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 1.5rem;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        transition: all 0.3s;
+      }
+      .founder-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(244, 155, 11, 0.2);
+        background: rgba(255, 255, 255, 0.04);
+      }
+      .founder-img {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 1.25rem;
+        border: 2px solid var(--orange);
+        padding: 4px;
+        background: var(--dark-3);
+      }
+      .founder-name {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: var(--white);
+        margin-bottom: 0.25rem;
+      }
+      .founder-role {
+        font-size: 0.75rem;
+        color: var(--orange);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 1.25rem;
+      }
+      .founder-highlights {
+        list-style: none;
+        text-align: left;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+      .founder-highlights li {
+        font-size: 0.82rem;
+        color: var(--gray);
+        line-height: 1.4;
+        display: flex;
+        gap: 0.6rem;
+      }
+      .founder-highlights li::before {
+        content: "→";
+        color: var(--orange);
+        font-weight: 900;
+        opacity: 0.7;
+      }
+
+      .team-lower {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        padding-top: 2rem;
+      }
+      .lower-sec h3 {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--gray-dim);
+        margin-bottom: 1.25rem;
+      }
+      .logo-row {
+        display: flex;
+        gap: 2.5rem;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .logo-item {
+        height: 50px;
+        width: auto;
+        opacity: 0.6;
+        filter: brightness(0) invert(1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .logo-item:hover {
+        opacity: 1;
+        filter: invert(70%) sepia(93%) saturate(1376%) hue-rotate(352deg)
+          brightness(101%) contrast(101%);
+        transform: scale(1.1);
+      }
+
+      /* ── SLIDE — PROJECT (BROCHURE STYLE) ────────── */
+      .proj-left {
+        width: 38%;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        padding: 5vh 4vw;
+        gap: 1.5rem;
+        border-right: 1px solid rgba(255, 255, 255, 0.05);
+        position: relative;
+        overflow-y: auto;
+      }
+      .proj-label {
+        font-family: "Poppins", sans-serif;
+        font-size: 0.85rem;
+        font-weight: 800;
+        color: var(--accent);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        margin-bottom: 0.2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .proj-badge {
+        font-size: 0.65rem;
+        background: var(--accent);
+        color: white;
+        padding: 0.15rem 0.6rem;
+        border-radius: 2rem;
+        letter-spacing: 0.05em;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .proj-title {
+        font-family: "Poppins", sans-serif;
+        font-size: clamp(1.8rem, 3vw, 2.6rem);
+        font-weight: 800;
+        line-height: 1.1;
+        margin-bottom: 0.5rem;
+      }
+      .proj-client-logo {
+        height: clamp(60px, 8vw, 90px);
+        width: auto;
+        object-fit: contain;
+        object-position: left;
+        margin-bottom: 0.75rem;
+        border-radius: 18px;
+      }
+
+      .proj-content {
+        display: flex;
+        flex-direction: column;
+        gap: 1.4rem;
+        width: 100%;
+      }
+      .proj-desc {
+        font-size: 0.95rem;
+        color: var(--gray);
+        line-height: 1.7;
+      }
+      .proj-challenge-label {
+        font-family: "Poppins", sans-serif;
+        font-size: 0.85rem;
+        font-weight: 800;
+        color: var(--accent);
+        margin-bottom: 0.4rem;
+        letter-spacing: 0.05em;
+      }
+      .proj-challenge-text {
+        font-size: 0.9rem;
+        color: var(--gray);
+        line-height: 1.7;
+      }
+
+      .proj-footer {
+        margin-top: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1.8rem;
+      }
+      .proj-note {
+        margin-top: 1rem;
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.35);
+        background: rgba(255, 255, 255, 0.03);
+        padding: 0.6rem 0.8rem;
+        border-radius: 6px;
+        display: flex;
+        gap: 0.5rem;
+        line-height: 1.4;
+        font-style: italic;
+        border: 1px solid rgba(255, 255, 255, 0.02);
+      }
+      .proj-note span {
+        opacity: 0.5;
+        font-style: normal;
+      }
+      .proj-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.8rem 1.6rem;
+        border-radius: 3rem;
+        background: transparent;
+        border: 1px solid var(--accent);
+        color: var(--accent);
+        font-family: "Poppins", sans-serif;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        text-decoration: none;
+        transition: all 0.2s;
+        width: fit-content;
+      }
+      .proj-btn:hover {
+        background: var(--accent);
+        color: white;
+        transform: scale(1.05);
+      }
+
+      .proj-meta {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+        padding: 1.25rem 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .proj-meta-item .mk {
+        font-size: 0.65rem;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 700;
+        margin-bottom: 0.2rem;
+      }
+      .proj-meta-item .mv {
+        font-family: "Poppins", sans-serif;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--white);
+      }
+
+      .proj-right {
+        flex: 1;
+        background: var(--dark-2);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+      .proj-showcase {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2.5rem;
+      }
+
+      /* BROWSER FRAME PREMIUM */
+      .browser-frame {
+        width: fit-content;
+        max-width: 95%;
+        background: #0f0f0f;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow:
+          0 40px 100px rgba(0, 0, 0, 0.6),
+          0 10px 30px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        flex-direction: column;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      }
+      .browser-header {
+        background: #1c1c1e;
+        padding: 0 16px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        position: relative;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .browser-dots {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+      }
+      .dot.r {
+        background: #ff5f56;
+      }
+      .dot.y {
+        background: #ffbd2e;
+      }
+      .dot.g {
+        background: #27c93f;
+      }
+
+      .browser-address-bar {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 6px;
+        padding: 4px 12px;
+        min-width: 35%;
+        max-width: 60%;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .browser-url {
+        font-family: inherit;
+        font-size: 0.65rem;
+        color: rgba(255, 255, 255, 0.3);
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .browser-body {
+        line-height: 0;
+        background: #fff;
+      }
+
+      .proj-showcase img {
+        max-width: 98%;
+        max-height: 85vh;
+        object-fit: contain;
+        filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.6));
+        border-radius: 1rem;
+      }
+      /* Override for browser images */
+      .browser-body img {
+        width: 100%;
+        height: auto;
+        border-radius: 0 !important;
+        filter: none !important;
+        max-width: 100% !important;
+        max-height: none !important;
+      }
+
+      /* ── SLIDE — CONTACT ─────────────────────────── */
+      .contact-left {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 4vw 3vw;
+        gap: 1.5rem;
+        position: relative;
+      }
+      .contact-text {
+        max-width: 480px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .contact-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 0.95rem;
+        color: var(--gray);
+      }
+      .contact-row .ico {
+        width: 2.4rem;
+        height: 2.4rem;
+        flex-shrink: 0;
+        background: rgba(244, 155, 11, 0.08);
+        border: 1px solid rgba(244, 155, 11, 0.25);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+      }
+      .contact-row a {
+        color: var(--orange);
+        text-decoration: none;
+      }
+      .social-links {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 0.5rem;
+      }
+      .social-link {
+        color: var(--gray-dim);
+        font-size: 0.82rem;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        transition: color 0.2s;
+      }
+      .social-link:hover {
+        color: var(--orange);
+      }
+      .contact-right {
+        width: 36%;
+        flex-shrink: 0;
+        background: var(--orange);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        padding: 3rem 2.5rem;
+      }
+      .contact-right .yr {
+        font-family: "Poppins", sans-serif;
+        font-size: clamp(4rem, 7vw, 6rem);
+        font-weight: 800;
+        color: white;
+        line-height: 1;
+      }
+      .contact-right .cta-now {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.8);
+        text-align: center;
+      }
+      .contact-right .cta-now strong {
+        display: block;
+        font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+        font-weight: 800;
+        color: white;
+        margin-top: 0.2rem;
+      }
+
+      /* ── PRINT / PDF ─────────────────────────────── */
+      @page {
+        size: landscape;
+        margin: 0;
+      }
+      @media print {
+        html,
+        body {
+          overflow: visible;
+          background: #1a1a1a !important;
+          print-color-adjust: exact;
+          -webkit-print-color-adjust: exact;
+        }
+        .nav-bar {
+          display: none !important;
+        }
+        #rotate-overlay {
+          display: none !important;
+        }
+        #presentation {
+          width: 100%;
+          height: auto;
+          position: static;
+        }
+        .slide {
+          display: flex !important;
+          position: relative;
+          page-break-after: always;
+          width: 100%;
+          height: 100vh;
+          break-after: page;
+          background: var(--dark) !important;
+        }
+        .slide:last-child {
+          page-break-after: avoid;
+          break-after: avoid;
+        }
+        /* Project slides: keep image + name + desc + challenge + btn, hide meta/note */
+        .proj-meta {
+          display: none !important;
+        }
+        .proj-note {
+          display: none !important;
+        }
+        /* Force background colors on dark panels */
+        .proj-right,
+        .info-right,
+        .role-right,
+        .workflow-right,
+        .contact-right,
+        .cover-bg::after {
+          print-color-adjust: exact;
+          -webkit-print-color-adjust: exact;
+        }
+        /* Lazy images: loaded via beforeprint handler */
+        /* Browser frame: drop shadow (renders as solid black box in PDF) */
+        .browser-frame {
+          box-shadow: none !important;
+          border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        }
+      }
+
+      /* ── MOBILE / ROTATE OVERLAY ─────────────────── */
+      #rotate-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        background: var(--dark);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2.5rem;
+        gap: 1.75rem;
+      }
+      .rotate-icon {
+        font-size: 4rem;
+        animation: spin-hint 2.5s ease-in-out infinite;
+      }
+      @keyframes spin-hint {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        40% {
+          transform: rotate(-90deg);
+        }
+        60% {
+          transform: rotate(-90deg);
+        }
+      }
+      .rotate-title {
+        font-family: "Poppins", sans-serif;
+        font-size: clamp(1.4rem, 5vw, 2rem);
+        font-weight: 700;
+        color: var(--white);
+      }
+      .rotate-title span {
+        color: var(--orange);
+      }
+      .rotate-sub {
+        font-size: 0.95rem;
+        color: var(--gray);
+        line-height: 1.7;
+        max-width: 320px;
+      }
+      .rotate-badge {
+        background: rgba(244, 155, 11, 0.1);
+        border: 1px solid rgba(244, 155, 11, 0.3);
+        color: var(--orange);
+        padding: 0.5rem 1.25rem;
+        border-radius: 2rem;
+        font-family: "Poppins", sans-serif;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      /* Show overlay in portrait or very narrow landscape */
+      @media (orientation: portrait) and (max-width: 1024px) {
+        #rotate-overlay {
+          display: flex;
+        }
+      }
+      @media (orientation: landscape) and (max-height: 450px) and (max-width: 900px) {
+        #rotate-overlay {
+          display: flex;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="presentation"></div>
+
+    <nav class="nav-bar">
+      <button id="btn-prev" onclick="go(cur - 1)">← Anterior</button>
+      <span class="counter" id="counter">1 / 1</span>
+      <button id="btn-next" onclick="go(cur + 1)">Siguiente →</button>
+      <button class="pdf-btn" onclick="printPDF()">↓ PDF</button>
+    </nav>
+
+    <div id="rotate-overlay">
+      <div class="rotate-icon">📱</div>
+      <div class="logo-mark" style="font-size: 1.8rem">
+        <span class="br">{</span>Coder<strong>Labs</strong
+        ><span class="br">_</span>
+      </div>
+      <p class="rotate-sub">
+        Esta presentación está optimizada para verse en
+        <strong style="color: var(--white)">modo horizontal</strong>. Rota tu
+        dispositivo para la mejor experiencia.
+      </p>
+      <span class="rotate-badge">↻ Rotar pantalla</span>
+    </div>
+
+    <script src="data/projects.js"></script>
+    <script>
+      // ═══════════════════════════════════════════════
+      // SLIDE BUILDERS
+      // ═══════════════════════════════════════════════
+
+      function imgOrPh(src, alt, cls, phText) {
+        return `<img data-src="${src}" alt="${alt}" class="lazy ${cls}"
                onload="this.classList.add('img-loaded')"
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="ph" style="display:none;flex:1">${phText}</div>`;
-}
+      }
 
-function buildCover() {
-  return `
+      function buildCover() {
+        return `
   <div class="slide" id="s0">
     <div class="slide-bar multi"></div>
     <div class="slide-body" style="position:relative">
@@ -645,28 +1168,37 @@ function buildCover() {
       <div class="v-line" style="position:relative;z-index:1;flex-shrink:0"></div>
       <div class="cover-content">
         <div class="logo-mark"><span class="br">{</span>Coder<strong>Labs</strong><span class="br">_</span></div>
-        <p class="label">Software a la medida · Barranquilla, Colombia</p>
+        <p class="label">Software a la medida · Compañía Registrada</p>
         <h1 class="cover-headline">
           Haciendo que tu negocio<br>
           <span>LAS SOLUCIONES<br>SE HAGAN REALIDAD</span>
         </h1>
         <p class="body">
-          Somos tu aliado tecnológico para transformar ideas en productos digitales de alto impacto para empresas B2B y B2C.
+          Somos tu aliado tecnológico internacional para transformar ideas en productos digitales de alto impacto, operando bajo estándares globales para empresas B2B y B2C.
         </p>
-        <div class="tags" style="margin-top:0.25rem">
-          <span class="tag">AI & Automatizaciones</span>
-          <span class="tag">Software Development</span>
-          <span class="tag">Consultoría TI</span>
-          <span class="tag">Análisis de datos</span>
+        <div class="presence" style="display:flex; align-items:center; gap:2rem; margin-top:1rem; padding-top:1.5rem; border-top:1px solid rgba(255,255,255,0.05)">
+           <div class="loc" style="display:flex; flex-direction:column; gap:0.2rem">
+              <span class="label" style="margin:0; font-size:0.6rem; color:var(--gray-dim)">Presencia Local</span>
+              <span style="font-size:0.85rem; font-weight:700; color:var(--white); display:flex; align-items:center; gap:0.5rem">
+                <span style="font-size:1.1rem">🇨🇴</span> Colombia
+              </span>
+           </div>
+           <div style="width:1px; height:25px; background:rgba(255,255,255,0.1)"></div>
+           <div class="loc" style="display:flex; flex-direction:column; gap:0.2rem">
+              <span class="label" style="margin:0; font-size:0.6rem; color:var(--gray-dim)">Presencia Global</span>
+              <span style="font-size:0.85rem; font-weight:700; color:var(--white); display:flex; align-items:center; gap:0.5rem">
+                <span style="font-size:1.1rem">🇺🇸</span> United States
+              </span>
+           </div>
         </div>
       </div>
       <div class="cover-year">2026</div>
     </div>
   </div>`;
-}
+      }
 
-function buildAboutMission() {
-  return `
+      function buildAboutMission() {
+        return `
   <div class="slide" id="s1">
     <div class="slide-bar orange"></div>
     <div class="slide-body">
@@ -697,15 +1229,19 @@ function buildAboutMission() {
         </div>
       </div>
       <div class="info-right">
-        ${imgOrPh('assets/misc/mission.png','Sobre Nosotros & Misión','',
-          'Imagen de misión<br><code>assets/misc/mission.png</code>')}
+        ${imgOrPh(
+          "assets/misc/mission.png",
+          "Sobre Nosotros & Misión",
+          "",
+          "Imagen de misión<br><code>assets/misc/mission.png</code>",
+        )}
       </div>
     </div>
   </div>`;
-}
+      }
 
-function buildFounders() {
-  return `
+      function buildFounders() {
+        return `
   <div class="slide" id="s2">
     <div class="slide-bar orange"></div>
     <div class="slide-body">
@@ -734,6 +1270,17 @@ function buildFounders() {
               <li>Especialista en Ciencia de Datos y Automatización con IA para escalamiento de startups y eficiencia operativa.</li>
             </ul>
           </div>
+          <div class="founder-card">
+            <img src="assets/team/Camilo.png" alt="Camilo Ramírez" class="founder-img"
+                 onerror="this.src='https://ui-avatars.com/api/?name=Camilo+Ramirez&background=222&color=fff'">
+            <h3 class="founder-name">Camilo Ramirez</h3>
+            <p class="founder-role">Diseñador UX/UI</p>
+            <ul class="founder-highlights">
+              <li>+4 años creando productos digitales intuitivos y centrados en el usuario.</li>
+              <li>Liderazgo en diseño para sectores como Banco General de Panamá y Nu Bank.</li>
+              <li>Especialista en integración de IA en flujos de diseño para optimizar la eficiencia y producción.</li>
+            </ul>
+          </div>
         </div>
         
         <div class="team-lower">
@@ -759,39 +1306,49 @@ function buildFounders() {
       </div>
     </div>
   </div>`;
-}
+      }
 
-function buildRole() {
-  const techs = [
-    { slug: 'anthropic',     label: 'Claude',      color: 'D97757' },
-    { slug: 'openai',        label: 'OpenAI',      color: '000000', local: 'assets/tech/openai.svg' },
-    { slug: 'n8n',           label: 'n8n',         color: 'FF6D5A' },
-    { slug: 'supabase',      label: 'Supabase',    color: '3ECF8E' },
-    { slug: 'swift',         label: 'Swift',       color: 'F05138' },
-    { slug: 'kotlin',        label: 'Kotlin',      color: '7F52FF' },
-    { slug: 'typescript',    label: 'TypeScript',  color: '3178C6' },
-    { slug: 'react',         label: 'React/Native',color: '61DAFB' },
-    { slug: 'nextdotjs',     label: 'Next.js',     color: 'FFFFFF' },
-    { slug: 'tailwindcss',   label: 'Tailwind',    color: '06B6D4' },
-    { slug: 'flutter',       label: 'Flutter',     color: '02569B' },
-    { slug: 'angular',       label: 'Angular',     color: 'DD0031' },
-    { slug: 'nodedotjs',     label: 'Node.js',     color: '339933' },
-    { slug: 'ruby',          label: 'Ruby',        color: 'CC342D' },
-    { slug: 'rubyonrails',   label: 'Rails',       color: 'D30001' },
-    { slug: 'python',        label: 'Python',      color: '3776AB' },
-    { slug: 'postgresql',    label: 'PostgreSQL',  color: '4169E1' },
-    { slug: 'mongodb',       label: 'MongoDB',     color: '47A248' },
-    { slug: 'sketch',        label: 'Sketch',      color: 'F7B500' },
-    { slug: 'figma',         label: 'Figma',       color: 'F24E1E' },
-    { slug: 'jira',          label: 'Jira',        color: '0052CC' },
-    { slug: 'aws',           label: 'AWS',         color: 'FF9900', local: 'assets/tech/aws.svg' },
-    { slug: 'googlecloud',   label: 'Google Cloud',color: '4285F4' },
-    { slug: 'digitalocean',  label: 'DigitalOcean',color: '0080FF' },
-    { slug: 'docker',        label: 'Docker',      color: '2496ED' },
-    { slug: 'git',           label: 'Git',         color: 'F05032' },
-    { slug: 'github',        label: 'GitHub',      color: 'FFFFFF' }
-  ];
-  return `
+      function buildRole() {
+        const techs = [
+          { slug: "anthropic", label: "Claude", color: "D97757" },
+          {
+            slug: "openai",
+            label: "OpenAI",
+            color: "000000",
+            local: "assets/tech/openai.svg",
+          },
+          { slug: "n8n", label: "n8n", color: "FF6D5A" },
+          { slug: "supabase", label: "Supabase", color: "3ECF8E" },
+          { slug: "swift", label: "Swift", color: "F05138" },
+          { slug: "kotlin", label: "Kotlin", color: "7F52FF" },
+          { slug: "typescript", label: "TypeScript", color: "3178C6" },
+          { slug: "react", label: "React/Native", color: "61DAFB" },
+          { slug: "nextdotjs", label: "Next.js", color: "FFFFFF" },
+          { slug: "tailwindcss", label: "Tailwind", color: "06B6D4" },
+          { slug: "flutter", label: "Flutter", color: "02569B" },
+          { slug: "angular", label: "Angular", color: "DD0031" },
+          { slug: "nodedotjs", label: "Node.js", color: "339933" },
+          { slug: "ruby", label: "Ruby", color: "CC342D" },
+          { slug: "rubyonrails", label: "Rails", color: "D30001" },
+          { slug: "python", label: "Python", color: "3776AB" },
+          { slug: "postgresql", label: "PostgreSQL", color: "4169E1" },
+          { slug: "mongodb", label: "MongoDB", color: "47A248" },
+          { slug: "sketch", label: "Sketch", color: "F7B500" },
+          { slug: "figma", label: "Figma", color: "F24E1E" },
+          { slug: "jira", label: "Jira", color: "0052CC" },
+          {
+            slug: "aws",
+            label: "AWS",
+            color: "FF9900",
+            local: "assets/tech/aws.svg",
+          },
+          { slug: "googlecloud", label: "Google Cloud", color: "4285F4" },
+          { slug: "digitalocean", label: "DigitalOcean", color: "0080FF" },
+          { slug: "docker", label: "Docker", color: "2496ED" },
+          { slug: "git", label: "Git", color: "F05032" },
+          { slug: "github", label: "GitHub", color: "FFFFFF" },
+        ];
+        return `
   <div class="slide" id="s4">
     <div class="slide-bar alt"></div>
     <div class="slide-body">
@@ -813,11 +1370,16 @@ function buildRole() {
       </div>
       <div class="role-right" style="width: 58%; padding: 2rem">
         <div class="tech-grid" style="grid-template-columns: repeat(7, 1fr); gap: 0.75rem">
-          ${techs.map(t => {
-            const baseSrc = t.local ? t.local : `https://cdn.simpleicons.org/${t.slug}/FFF`;
-            const hoverSrc = t.local ? t.local : `https://cdn.simpleicons.org/${t.slug}/${t.color}`;
-            const filter = t.local ? 'filter: brightness(0) invert(1);' : '';
-            return `
+          ${techs
+            .map((t) => {
+              const baseSrc = t.local
+                ? t.local
+                : `https://cdn.simpleicons.org/${t.slug}/FFF`;
+              const hoverSrc = t.local
+                ? t.local
+                : `https://cdn.simpleicons.org/${t.slug}/${t.color}`;
+              const filter = t.local ? "filter: brightness(0) invert(1);" : "";
+              return `
             <div class="tech-icon" style="background: rgba(255,255,255,0.03); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.08); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: default; transform-style: preserve-3d;" 
                  onmouseover="this.style.background='rgba(255,255,255,0.1)';this.style.borderColor='#${t.color}66';this.style.transform='translateY(-5px) scale(1.05)';this.style.boxShadow='0 10px 20px -5px #${t.color}33'"
                  onmouseout="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.08)';this.style.transform='translateY(0) scale(1)';this.style.boxShadow='none'">
@@ -828,15 +1390,16 @@ function buildRole() {
                    onmouseout="this.style.opacity='0.85';${t.local ? "this.style.filter='brightness(0) invert(1)'" : ""}">
               <span style="font-size: 0.45rem; margin-top: 0.4rem; color: var(--gray-dim); letter-spacing: 0.05em; font-weight: 500">${t.label.toUpperCase()}</span>
             </div>`;
-          }).join('')}
+            })
+            .join("")}
         </div>
       </div>
     </div>
   </div>`;
-}
+      }
 
-function buildWorkflow() {
-  return `
+      function buildWorkflow() {
+        return `
   <div class="slide" id="s5">
     <div class="slide-bar orange"></div>
     <div class="slide-body">
@@ -869,10 +1432,10 @@ function buildWorkflow() {
       </div>
     </div>
   </div>`;
-}
+      }
 
-function buildServices() {
-  return `
+      function buildServices() {
+        return `
   <div class="slide" id="s6">
     <div class="slide-bar multi"></div>
     <div class="slide-body">
@@ -917,57 +1480,73 @@ function buildServices() {
       </div>
     </div>
   </div>`;
-}
+      }
 
-function buildProject(p, i) {
-  const accent = p.color || '#F49B0B';
-  const logoSrc = p.clientLogo ? `assets/projects/${p.clientLogo}` : '';
-  const logoHtml = logoSrc 
-    ? `<img src="${logoSrc}" alt="${p.name} logo" class="proj-client-logo" onerror="this.remove()">` 
-    : '';
+      function buildProject(p, i) {
+        const accent = p.color || "#F49B0B";
+        const logoSrc = p.clientLogo ? `assets/projects/${p.clientLogo}` : "";
+        const logoHtml = logoSrc
+          ? `<img src="${logoSrc}" alt="${p.name} logo" class="proj-client-logo" onerror="this.remove()">`
+          : "";
 
-  const clientDisplay = `
+        const clientDisplay = `
     ${logoHtml}
     <h2 class="proj-title">${p.name}</h2>
   `;
 
-  const metaHtml = p.meta
-    ? `<div class="proj-meta">
-        ${Object.entries(p.meta).map(([k,v]) => `
+        const metaHtml = p.meta
+          ? `<div class="proj-meta">
+        ${Object.entries(p.meta)
+          .map(
+            ([k, v]) => `
         <div class="proj-meta-item">
           <div class="mk">${k.toUpperCase()}</div>
           <div class="mv">${v}</div>
-        </div>`).join('')}
-       </div>` : '';
+        </div>`,
+          )
+          .join("")}
+       </div>`
+          : "";
 
-  const screenshotSrc = Array.isArray(p.screenshot) ? p.screenshot[0] : p.screenshot;
-  const platform = (p.meta && p.meta.Plataforma) ? p.meta.Plataforma.toLowerCase() : '';
-  const isWeb = platform.includes('web') && !platform.includes('android') && !platform.includes('ios');
+        const screenshotSrc = Array.isArray(p.screenshot)
+          ? p.screenshot[0]
+          : p.screenshot;
+        const platform =
+          p.meta && p.meta.Plataforma ? p.meta.Plataforma.toLowerCase() : "";
+        const isWeb =
+          platform.includes("web") &&
+          !platform.includes("android") &&
+          !platform.includes("ios");
 
-  const imageContent = isWeb 
-    ? `<div class="browser-frame">
+        const imageContent = isWeb
+          ? `<div class="browser-frame">
          <div class="browser-header">
            <div class="browser-dots">
              <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
            </div>
            <div class="browser-address-bar">
-             <div class="browser-url">${p.url && p.url !== '#' ? p.url.replace('https://','').replace('www.','') : p.name.toLowerCase()+'.app'}</div>
+             <div class="browser-url">${p.url && p.url !== "#" ? p.url.replace("https://", "").replace("www.", "") : p.name.toLowerCase() + ".app"}</div>
            </div>
          </div>
          <div class="browser-body">
-            ${imgOrPh('assets/projects/'+screenshotSrc, p.name, '', 'Screenshot: '+p.name)}
+            ${imgOrPh("assets/projects/" + screenshotSrc, p.name, "", "Screenshot: " + p.name)}
          </div>
        </div>`
-    : imgOrPh('assets/projects/'+screenshotSrc, p.name, '', 'Screenshot: '+p.name);
-  
-  return `
+          : imgOrPh(
+              "assets/projects/" + screenshotSrc,
+              p.name,
+              "",
+              "Screenshot: " + p.name,
+            );
+
+        return `
   <div class="slide" id="p${i}" style="--accent: ${accent}">
     <div class="slide-bar" style="background:${accent}"></div>
     <div class="slide-body">
       <div class="proj-left">
         <div class="proj-label">
            <span>NUESTRO TRABAJO</span>
-           ${p.top ? `<span class="proj-badge">TOP PROJECT</span>` : ''}
+           ${p.top ? `<span class="proj-badge">TOP PROJECT</span>` : ""}
         </div>
         <div class="proj-header">
            ${clientDisplay}
@@ -978,11 +1557,11 @@ function buildProject(p, i) {
              <p class="proj-challenge-label">DESAFÍO</p>
              <p class="proj-challenge-text">${p.challenge}</p>
           </div>
-          ${p.note ? `<div class="proj-note"><span>🔒</span> ${p.note}</div>` : ''}
+          ${p.note ? `<div class="proj-note"><span>🔒</span> ${p.note}</div>` : ""}
         </div>
         <div class="proj-footer">
           ${metaHtml}
-          <a href="${p.url || '#'}" target="_blank" class="proj-btn">Ver Proyecto →</a>
+          <a href="${p.url || "#"}" target="_blank" class="proj-btn">Ver Proyecto →</a>
         </div>
       </div>
       <div class="proj-right">
@@ -992,30 +1571,51 @@ function buildProject(p, i) {
       </div>
     </div>
   </div>`;
-}
+      }
 
-function buildContact() {
-  return `
+      function buildContact() {
+        return `
   <div class="slide" id="sc">
     <div class="slide-bar multi"></div>
     <div class="slide-body">
       <div class="v-line"></div>
       <div class="contact-left">
-        <div class="contact-text">
-          <div class="logo-mark"><span class="br">{</span>Coder<strong>Labs</strong><span class="br">_</span></div>
-          <p class="label">Estamos listos para ayudarte</p>
-          <div class="contact-info">
-            <div class="contact-row"><span class="ico">✉</span><span>contact@coderlabs.co</span></div>
-            <div class="contact-row"><span class="ico">📞</span><span>300 277 1564</span></div>
-            <div class="contact-row"><span class="ico">📍</span><span>Calle 35A No. 17-74, piso 3, Barranquilla, Atlántico, Colombia</span></div>
-            <div class="contact-row"><span class="ico">🕘</span><span>Lunes – Viernes · 9:00 a 18:00</span></div>
-            <div class="contact-row"><span class="ico">🌐</span><a href="https://coderlabs.co" target="_blank">coderlabs.co</a></div>
+        <div class="contact-text" style="max-width: 650px">
+          <div class="logo-mark" style="margin-bottom: 0.5rem"><span class="br">{</span>Coder<strong>Labs</strong><span class="br">_</span></div>
+          <p class="label" style="margin-bottom: 2rem">Presencia Internacional & Contacto</p>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem">
+            <div class="loc-block">
+              <p class="label" style="font-size:0.6rem; color:var(--orange); display:flex; align-items:center; gap:0.4rem">
+                <span>🇨🇴</span> COLOMBIA
+              </p>
+              <div style="font-size: 1rem; color: var(--white); font-weight: 700; margin-bottom: 0.75rem">CODERLABS SAS</div>
+              <div class="contact-info" style="gap: 0.6rem">
+                <div class="contact-row" style="font-size:0.8rem; gap:0.6rem"><span class="ico" style="width:1.8rem; height:1.8rem; font-size:0.7rem">📍</span><span>Calle 35A No. 17-74, Piso 3,<br>Barranquilla, Atlántico.</span></div>
+                <div class="contact-row" style="font-size:0.8rem; gap:0.6rem"><span class="ico" style="width:1.8rem; height:1.8rem; font-size:0.7rem">✉</span><span>contact@coderlabs.co</span></div>
+                <div class="contact-row" style="font-size:0.8rem; gap:0.6rem"><span class="ico" style="width:1.8rem; height:1.8rem; font-size:0.7rem">📞</span><span>300 277 1564</span></div>
+              </div>
+            </div>
+            
+            <div class="loc-block">
+              <p class="label" style="font-size:0.6rem; color:var(--teal); display:flex; align-items:center; gap:0.4rem">
+                <span>🇺🇸</span> UNITED STATES
+              </p>
+              <div style="font-size: 1rem; color: var(--white); font-weight: 700; margin-bottom: 0.75rem">CODERLABS LLC</div>
+              <div class="contact-info" style="gap: 0.6rem">
+                <div class="contact-row" style="font-size:0.8rem; gap:0.6rem"><span class="ico" style="width:1.8rem; height:1.8rem; font-size:0.7rem">📍</span><span>30 N Gould St Ste R,<br>Sheridan, WY 82801.</span></div>
+                <div class="contact-row" style="font-size:0.8rem; gap:0.6rem"><span class="ico" style="width:1.8rem; height:1.8rem; font-size:0.7rem">✉</span><span>contact@coderlabs.co</span></div>
+                <div class="contact-row" style="font-size:0.8rem; gap:0.6rem"><span class="ico" style="width:1.8rem; height:1.8rem; font-size:0.7rem">📞</span><span>300 277 1564</span></div>
+              </div>
+            </div>
           </div>
-          <div class="social-links">
-            <span class="social-link">in CoderLabs</span>
-            <span class="social-link">𝕏 @coderlabs_</span>
-            <span class="social-link">▶ @coderlabs.code</span>
-            <span class="social-link">📷 @coderlabs_</span>
+
+          <div class="social-links" style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); align-items: center">
+             <a href="https://www.linkedin.com/company/coderlabsco" target="_blank" rel="noopener noreferrer" class="social-link" style="opacity:0.65"><img src="assets/icons/linkedin-svgrepo-com.svg" style="height:1.4rem; filter: brightness(0) invert(1)" alt="LinkedIn"></a>
+             <a href="https://x.com/coderlabs_" target="_blank" rel="noopener noreferrer" class="social-link" style="opacity:0.65"><img src="https://cdn.simpleicons.org/x/white" style="height:1.4rem" alt="X"></a>
+             <a href="https://youtube.com/@coderlabs.code" target="_blank" rel="noopener noreferrer" class="social-link" style="opacity:0.65"><img src="https://cdn.simpleicons.org/youtube/white" style="height:1.4rem" alt="YouTube"></a>
+             <a href="https://instagram.com/coderlabs_" target="_blank" rel="noopener noreferrer" class="social-link" style="opacity:0.65"><img src="https://cdn.simpleicons.org/instagram/white" style="height:1.4rem" alt="Instagram"></a>
+             <a href="https://coderlabs.co" target="_blank" style="margin-left:auto; color:var(--orange); font-weight:700; text-decoration:none; font-size:1rem; border:1px solid var(--orange); padding: 0.5rem 1.25rem; border-radius: 2rem">coderlabs.co</a>
           </div>
         </div>
       </div>
@@ -1031,71 +1631,107 @@ function buildContact() {
       </div>
     </div>
   </div>`;
-}
+      }
 
-// ═══════════════════════════════════════════════
-// LAZY LOADING
-// ═══════════════════════════════════════════════
-function loadImages(slideEl) {
-  if (!slideEl) return;
-  slideEl.querySelectorAll('img[data-src]').forEach(img => {
-    if (!img.getAttribute('src')) {
-      img.src = img.getAttribute('data-src');
-    }
-  });
-}
+      // ═══════════════════════════════════════════════
+      // LAZY LOADING
+      // ═══════════════════════════════════════════════
+      function loadImages(slideEl) {
+        if (!slideEl) return;
+        slideEl.querySelectorAll("img[data-src]").forEach((img) => {
+          if (!img.getAttribute("src")) {
+            img.src = img.getAttribute("data-src");
+          }
+        });
+      }
 
-// ═══════════════════════════════════════════════
-// NAVIGATION
-// ═══════════════════════════════════════════════
-let cur = 0;
-let slides = [];
+      // ═══════════════════════════════════════════════
+      // NAVIGATION
+      // ═══════════════════════════════════════════════
+      let cur = 0;
+      let slides = [];
 
-function go(n) {
-  slides[cur].classList.remove('active');
-  cur = Math.max(0, Math.min(n, slides.length - 1));
-  slides[cur].classList.add('active');
-  loadImages(slides[cur]);
-  loadImages(slides[cur + 1]); // preload next
-  document.getElementById('counter').textContent = `${cur + 1} / ${slides.length}`;
-  document.getElementById('btn-prev').disabled = cur === 0;
-  document.getElementById('btn-next').disabled = cur === slides.length - 1;
-}
+      function go(n) {
+        slides[cur].classList.remove("active");
+        cur = Math.max(0, Math.min(n, slides.length - 1));
+        slides[cur].classList.add("active");
+        loadImages(slides[cur]);
+        loadImages(slides[cur + 1]); // preload next
+        document.getElementById("counter").textContent =
+          `${cur + 1} / ${slides.length}`;
+        document.getElementById("btn-prev").disabled = cur === 0;
+        document.getElementById("btn-next").disabled =
+          cur === slides.length - 1;
+      }
 
-document.addEventListener('keydown', e => {
-  if (['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)) { e.preventDefault(); go(cur+1); }
-  if (['ArrowLeft','ArrowUp','PageUp'].includes(e.key))          { e.preventDefault(); go(cur-1); }
-});
+      document.addEventListener("keydown", (e) => {
+        if (["ArrowRight", "ArrowDown", "PageDown", " "].includes(e.key)) {
+          e.preventDefault();
+          go(cur + 1);
+        }
+        if (["ArrowLeft", "ArrowUp", "PageUp"].includes(e.key)) {
+          e.preventDefault();
+          go(cur - 1);
+        }
+      });
 
-// ═══════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════
-(function init() {
-  const p = document.getElementById('presentation');
-  let html = '';
-  html += buildCover();
-  html += buildAboutMission();
-  html += buildFounders();
-  html += buildRole();
-  html += buildWorkflow();
-  // html += buildServices();
-  (window.PROJECTS || []).forEach((proj, i) => { html += buildProject(proj, i); });
-  html += buildContact();
-  p.innerHTML = html;
+      // ═══════════════════════════════════════════════
+      // INIT
+      // ═══════════════════════════════════════════════
+      (function init() {
+        const p = document.getElementById("presentation");
+        let html = "";
+        html += buildCover();
+        html += buildAboutMission();
+        html += buildFounders();
+        html += buildRole();
+        html += buildWorkflow();
+        // html += buildServices();
+        (window.PROJECTS || []).forEach((proj, i) => {
+          html += buildProject(proj, i);
+        });
+        html += buildContact();
+        p.innerHTML = html;
 
-  slides = Array.from(document.querySelectorAll('.slide'));
-  slides[0].classList.add('active');
-  document.getElementById('counter').textContent = `1 / ${slides.length}`;
-  document.getElementById('btn-prev').disabled = true;
+        slides = Array.from(document.querySelectorAll(".slide"));
+        slides[0].classList.add("active");
+        document.getElementById("counter").textContent = `1 / ${slides.length}`;
+        document.getElementById("btn-prev").disabled = true;
 
-  // Load first 2 slides immediately; rest load on demand
-  loadImages(slides[0]);
-  loadImages(slides[1]);
+        // Load first 2 slides immediately; rest load on demand
+        loadImages(slides[0]);
+        loadImages(slides[1]);
 
-  // Cover: hero as full background (already preloaded via <link rel=preload>)
-  const covBg = document.getElementById('cover-bg');
-  if (covBg) covBg.style.backgroundImage = "url('assets/hero/hero.png')";
-})();
-</script>
-</body>
+        // Cover: hero as full background (already preloaded via <link rel=preload>)
+        const covBg = document.getElementById("cover-bg");
+        if (covBg) covBg.style.backgroundImage = "url('assets/hero/hero.png')";
+
+        // Before print: force-load ALL slide images so they appear in PDF
+        window.addEventListener("beforeprint", function () {
+          slides.forEach((slide) => loadImages(slide));
+        });
+
+        // PDF button: wait for all images to finish loading before printing
+        window.printPDF = function () {
+          slides.forEach((slide) => loadImages(slide));
+          const imgs = Array.from(document.querySelectorAll("img[src]"));
+          const pending = imgs.filter((img) => !img.complete);
+          if (pending.length === 0) {
+            window.print();
+            return;
+          }
+          let loaded = 0;
+          const onDone = () => {
+            if (++loaded >= pending.length) window.print();
+          };
+          pending.forEach((img) => {
+            img.addEventListener("load", onDone, { once: true });
+            img.addEventListener("error", onDone, { once: true });
+          });
+          // Fallback: print after 3s regardless
+          setTimeout(window.print.bind(window), 3000);
+        };
+      })();
+    </script>
+  </body>
 </html>
