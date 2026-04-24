@@ -16,31 +16,6 @@ window.PROJECTS = [
   // ── TOP PROJECTS (Flagship projects) ───────────────────────────────────
 
   {
-    name: "Zali – Infraestructura Fintech & Crédito",
-    client: "Zali Group",
-    top: true,
-    screenshot: "zali.png",
-    description:
-      "Plataforma SaaS de marca blanca para digitalizar la operación crediticia. Permite orquestar solicitudes masivas, scoring de riesgo, desembolsos y cobranzas mediante una infraestructura modular de alto rendimiento, eliminando la complejidad técnica de desarrollar tecnología financiera propia.",
-    challenge:
-      "Centralizar la operación de un gran grupo empresarial bajo una arquitectura fintech escalable. Desarrollamos un core de marca blanca para la gestión integral de cartera en tiempo real, garantizando seguridad y una experiencia optimizada para la administración de capital.",
-    tags: [
-      "FinTech",
-      "White Label",
-      "Credit Operations",
-      "SaS Architecture",
-      "Financial Systems",
-    ],
-    color: "#0072CE",
-    meta: {
-      Tipo: "FinTech / SaaS",
-      Modelo: "White Label",
-      Alcance: "Corporativo",
-    },
-    url: "https://zali.com.co/",
-  },
-
-  {
     name: "Domino's Pizza",
     client: "Domino's",
     color: "#E31837",
@@ -101,6 +76,31 @@ window.PROJECTS = [
   },
 
   // ── OTROS PROYECTOS (Ordenados por impacto y relevancia) ────────────────
+
+  {
+    name: "Zali – Infraestructura Fintech & Crédito",
+    client: "Zali Group",
+    top: true,
+    screenshot: "zali.png",
+    description:
+      "Plataforma SaaS de marca blanca para digitalizar la operación crediticia. Permite orquestar solicitudes masivas, scoring de riesgo, desembolsos y cobranzas mediante una infraestructura modular de alto rendimiento, eliminando la complejidad técnica de desarrollar tecnología financiera propia.",
+    challenge:
+      "Centralizar la operación de un gran grupo empresarial bajo una arquitectura fintech escalable. Desarrollamos un core de marca blanca para la gestión integral de cartera en tiempo real, garantizando seguridad y una experiencia optimizada para la administración de capital.",
+    tags: [
+      "FinTech",
+      "White Label",
+      "Credit Operations",
+      "SaS Architecture",
+      "Financial Systems",
+    ],
+    color: "#0072CE",
+    meta: {
+      Tipo: "FinTech / SaaS",
+      Modelo: "White Label",
+      Alcance: "Corporativo",
+    },
+    url: "https://zali.com.co/",
+  },
 
   {
     name: "Hola FOMO – EventTech",
